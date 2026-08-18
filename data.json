@@ -1,0 +1,201 @@
+{
+  "tab1": {
+    "collidePad": 30,
+    "catCfg": {
+      "ubo":      { "fill":"#122945", "icon":"#ffffff", "stroke":"#ffffff", "sw":1.5, "r":18, "tier":0, "kind":"person", "label":"FIFA Leadership / Officials (PEP)" },
+      "corp":     { "fill":"#043d5d", "icon":"#ffffff", "stroke":"#ffffff", "sw":2,   "r":25, "tier":1, "kind":"org",    "label":"Sponsors &amp; Vendors" },
+      "hub":      { "fill":"#f75151", "icon":"#ffffff", "stroke":"#ffffff", "sw":2.5, "r":30, "tier":2, "kind":"org",    "label":"FIFA (Governing Body)" },
+      "defense":  { "fill":"#a0b9d0", "icon":"#ffffff", "stroke":"#ffffff", "sw":1.5, "r":16, "tier":3, "kind":"person", "label":"Players" },
+      "statesec": { "fill":"#a0b9d0", "icon":"#ffffff", "stroke":"#225b7b", "sw":2,   "r":18, "tier":3, "kind":"org",    "label":"State-Linked Sponsors / Foreign Gov&rsquo;t Funding" },
+      "customer": { "fill":"#3bbc97", "icon":"#ffffff", "stroke":"#ffffff", "sw":1.5, "r":16, "tier":4, "kind":"asset",  "label":"Assets &amp; Shell Entities" }
+    },
+    "tierX": { "ubo":0.50, "corp":0.50, "hub":0.50, "defense":0.12, "statesec":0.18, "customer":0.82 },
+    "nodes": [
+      { "id":"hub", "cat":"hub", "full":"FIFA", "sub":"International Governing Body" },
+
+      { "id":"u01", "cat":"ubo", "full":"Marcus Oyelaran", "sub":"Confederation Vice President", "flagged":true, "flagNote":"Under active ethics investigation", "gamblingTie":{ "targetId":"bm_vantage", "targetLabel":"Vantage Blue Betting Ltd" } },
+      { "id":"u02", "cat":"ubo", "full":"Henrik Dalgaard", "sub":"Regional Federation Treasurer", "flagged":true, "flagNote":"Under active ethics investigation", "gamblingTie":{ "targetId":"syn_solvana", "targetLabel":"Solvana Consortium" } },
+      { "id":"u03", "cat":"ubo", "full":"Amara Voss", "sub":"FIFA Executive Committee Member", "flagged":true, "flagNote":"Flagged for undisclosed consulting income" },
+      { "id":"u04", "cat":"ubo", "full":"Tomasz Kwiatkowski", "sub":"Deputy Secretary General" },
+      { "id":"u05", "cat":"ubo", "full":"Priya Ramchandani", "sub":"Competitions Director" },
+      { "id":"u06", "cat":"ubo", "full":"Diego Farrow-Lund", "sub":"Regional Federation President", "flagged":true, "flagNote":"Flagged for undisclosed asset holdings" },
+      { "id":"u07", "cat":"ubo", "full":"Sana Belhadj", "sub":"Ethics Committee Liaison" },
+      { "id":"u08", "cat":"ubo", "full":"Colm Whitfield", "sub":"Media Rights Committee Chair", "gamblingTie":{ "targetId":"bm_ridgeline", "targetLabel":"Ridgeline Sports Exchange" } },
+
+      { "id":"c01", "cat":"corp", "full":"Solstice Sportswear Group", "sub":"Kit & Apparel Sponsor" },
+      { "id":"c02", "cat":"corp", "full":"Meridian Broadcast Partners", "sub":"Broadcast Rights Vendor" },
+      { "id":"c03", "cat":"corp", "full":"Halcyon Hospitality Group", "sub":"Hospitality Vendor" },
+      { "id":"c04", "cat":"corp", "full":"Ferrovia Construction Consortium", "sub":"Stadium Construction Vendor" },
+      { "id":"c05", "cat":"corp", "full":"BlueArc Data Systems", "sub":"Ticketing & Technology Vendor" },
+      { "id":"c06", "cat":"corp", "full":"Solvana Consulting Group", "sub":"Strategic Consulting Vendor" },
+
+      { "id":"p01", "cat":"defense", "full":"Adrian Kessel", "sub":"Player" },
+      { "id":"p02", "cat":"defense", "full":"Yusuf Tanaka-Braun", "sub":"Player" },
+      { "id":"p03", "cat":"defense", "full":"Nikolai Osei", "sub":"Player" },
+      { "id":"p04", "cat":"defense", "full":"Mateo Lindqvist", "sub":"Player" },
+      { "id":"p05", "cat":"defense", "full":"Faisal Renner", "sub":"Player" },
+      { "id":"p06", "cat":"defense", "full":"Kenji Alba-Marsh", "sub":"Player" },
+      { "id":"p07", "cat":"defense", "full":"Rurik Somsak", "sub":"Player" },
+      { "id":"p08", "cat":"defense", "full":"Elian Vogt", "sub":"Player" },
+
+      { "id":"s01", "cat":"statesec", "full":"Northbridge Sovereign Development Fund", "sub":"State-Linked Investment Fund" },
+      { "id":"s02", "cat":"statesec", "full":"Ashford State Investment Authority", "sub":"State-Linked Investment Fund" },
+      { "id":"s03", "cat":"statesec", "full":"Velenport National Development Bank", "sub":"State-Linked Development Bank" },
+      { "id":"s04", "cat":"statesec", "full":"Correntine Ministry of Sport Trust Fund", "sub":"State-Linked Trust Fund" },
+      { "id":"s05", "cat":"statesec", "full":"Drayle Public Investment Office", "sub":"State-Linked Investment Office" },
+      { "id":"s06", "cat":"statesec", "full":"Marrow State Holding Corporation", "sub":"State-Linked Holding Company" },
+
+      { "id":"a01", "cat":"customer", "full":"Cascade Holdings Ltd", "sub":"Shell entity — beneficial owner: M. Oyelaran" },
+      { "id":"a02", "cat":"customer", "full":"Meridian Sports Holdings Ltd", "sub":"Shell entity — beneficial owners: H. Dalgaard, A. Voss" },
+      { "id":"a03", "cat":"customer", "full":"Sunreach Property Trust", "sub":"Real estate — beneficial owner: A. Voss" },
+      { "id":"a04", "cat":"customer", "full":"Azure Fjord Yacht Charter LLC", "sub":"Asset — beneficial owner: D. Farrow-Lund" },
+      { "id":"a05", "cat":"customer", "full":"Palisade Family Office", "sub":"Asset manager — beneficial owner: M. Oyelaran" },
+      { "id":"a06", "cat":"customer", "full":"Northgate Trading SA", "sub":"Shell entity — beneficial owner: D. Farrow-Lund" },
+      { "id":"a07", "cat":"customer", "full":"Whitfield Family Trust", "sub":"Trust — beneficial owner: C. Whitfield; holds equity in Ridgeline Sports Exchange" },
+      { "id":"a08", "cat":"customer", "full":"Solvana Capital Partners", "sub":"Shell entity — beneficial owner: H. Dalgaard; holds equity in Solvana Consortium" }
+    ],
+    "linkDefs": [
+      {"s":"hub", "t":"u01", "tp":"sup", "label":"FIFA LEADERSHIP ROLE"}, {"s":"hub", "t":"u02", "tp":"sup", "label":"FIFA LEADERSHIP ROLE"}, {"s":"hub", "t":"u03", "tp":"sup", "label":"FIFA LEADERSHIP ROLE"},
+      {"s":"hub", "t":"u04", "tp":"sup", "label":"FIFA LEADERSHIP ROLE"}, {"s":"hub", "t":"u05", "tp":"sup", "label":"FIFA LEADERSHIP ROLE"}, {"s":"hub", "t":"u06", "tp":"sup", "label":"FIFA LEADERSHIP ROLE"},
+      {"s":"hub", "t":"u07", "tp":"sup", "label":"FIFA LEADERSHIP ROLE"}, {"s":"hub", "t":"u08", "tp":"sup", "label":"FIFA LEADERSHIP ROLE"},
+
+      {"s":"hub", "t":"c01", "tp":"sup", "label":"SPONSORSHIP DEAL"},
+      {"s":"hub", "t":"c02", "tp":"sup", "label":"BROADCAST RIGHTS DEAL"},
+      {"s":"hub", "t":"c03", "tp":"sup", "label":"HOSPITALITY CONTRACT"},
+      {"s":"hub", "t":"c04", "tp":"sup", "label":"CONSTRUCTION CONTRACT"},
+      {"s":"hub", "t":"c05", "tp":"sup", "label":"TECH SERVICES CONTRACT"},
+      {"s":"hub", "t":"c06", "tp":"sup", "label":"CONSULTING CONTRACT"},
+
+      {"s":"u01", "t":"a01", "tp":"sh", "label":"BENEFICIAL OWNER"},
+      {"s":"u01", "t":"a05", "tp":"sh", "label":"BENEFICIAL OWNER"},
+      {"s":"u02", "t":"a02", "tp":"sh", "label":"BENEFICIAL OWNER"},
+      {"s":"u02", "t":"a08", "tp":"sh", "label":"BENEFICIAL OWNER"},
+      {"s":"u03", "t":"a02", "tp":"sh", "label":"BENEFICIAL OWNER"},
+      {"s":"u03", "t":"a03", "tp":"sh", "label":"BENEFICIAL OWNER"},
+      {"s":"u06", "t":"a04", "tp":"sh", "label":"BENEFICIAL OWNER"},
+      {"s":"u06", "t":"a06", "tp":"sh", "label":"BENEFICIAL OWNER"},
+      {"s":"u08", "t":"a07", "tp":"sh", "label":"BENEFICIAL OWNER"},
+
+      {"s":"s01", "t":"c01", "tp":"sh", "label":"FOREIGN FUNDING CHANNEL"},
+      {"s":"s02", "t":"c02", "tp":"sh", "label":"FOREIGN FUNDING CHANNEL"},
+      {"s":"s03", "t":"c04", "tp":"sh", "label":"FOREIGN FUNDING CHANNEL"},
+      {"s":"s04", "t":"c03", "tp":"sh", "label":"FOREIGN FUNDING CHANNEL"},
+      {"s":"s05", "t":"c05", "tp":"sh", "label":"FOREIGN FUNDING CHANNEL"},
+      {"s":"s06", "t":"a03", "tp":"sh", "label":"ALLEGED INFLATED PURCHASE"},
+
+      {"s":"u03", "t":"c02", "tp":"sh", "label":"UNDISCLOSED CONSULTING FEE"},
+      {"s":"u01", "t":"c04", "tp":"sh", "label":"AWARDED CONTRACT"},
+
+      {"s":"c01", "t":"p01", "tp":"cl", "label":"ENDORSEMENT DEAL"}, {"s":"c01", "t":"p02", "tp":"cl", "label":"ENDORSEMENT DEAL"},
+      {"s":"c02", "t":"p03", "tp":"cl", "label":"ENDORSEMENT DEAL"}, {"s":"c02", "t":"p04", "tp":"cl", "label":"ENDORSEMENT DEAL"},
+      {"s":"c03", "t":"p05", "tp":"cl", "label":"ENDORSEMENT DEAL"}, {"s":"c05", "t":"p06", "tp":"cl", "label":"ENDORSEMENT DEAL"},
+      {"s":"c01", "t":"p07", "tp":"cl", "label":"ENDORSEMENT DEAL"}, {"s":"c04", "t":"p08", "tp":"cl", "label":"ENDORSEMENT DEAL"}
+    ]
+  },
+  "tab2": {
+    "collidePad": 26,
+    "catCfg": {
+      "ubo":      { "fill":"#122945", "icon":"#ffffff", "stroke":"#ffffff", "sw":1.5, "r":15, "tier":0, "kind":"person", "label":"Referees" },
+      "corp":     { "fill":"#043d5d", "icon":"#ffffff", "stroke":"#ffffff", "sw":2,   "r":20, "tier":1, "kind":"org",    "label":"Suspected Fixing Syndicates" },
+      "hub":      { "fill":"#f75151", "icon":"#ffffff", "stroke":"#ffffff", "sw":2,   "r":22, "tier":2, "kind":"ball",   "label":"Matches" },
+      "defense":  { "fill":"#a0b9d0", "icon":"#ffffff", "stroke":"#ffffff", "sw":1.5, "r":15, "tier":3, "kind":"org",    "label":"Licensed Bookmakers" },
+      "statesec": { "fill":"#a0b9d0", "icon":"#ffffff", "stroke":"#225b7b", "sw":2,   "r":15, "tier":3, "kind":"org",    "label":"Offshore / Unregulated Bookmakers" },
+      "customer": { "fill":"#3bbc97", "icon":"#ffffff", "stroke":"#ffffff", "sw":1.5, "r":13, "tier":4, "kind":"person", "label":"Players" }
+    },
+    "tierX": { "ubo":0.50, "corp":0.50, "hub":0.50, "defense":0.12, "statesec":0.18, "customer":0.82 },
+    "nodes": [
+      { "id":"m01", "cat":"hub", "full":"Kestrelia vs Meridia", "sub":"Group C · Matchday 2", "flagged":true, "flagNote":"Anomalous odds movement flagged" },
+      { "id":"m02", "cat":"hub", "full":"Aurelia vs Vantoria", "sub":"Group C · Matchday 3", "flagged":true, "flagNote":"Anomalous odds movement flagged" },
+      { "id":"m03", "cat":"hub", "full":"Norlund vs Cassaway", "sub":"Group A · Matchday 1" },
+      { "id":"m04", "cat":"hub", "full":"Iberrin vs Solmara", "sub":"Group A · Matchday 2", "flagged":true, "flagNote":"Anomalous odds movement flagged" },
+      { "id":"m05", "cat":"hub", "full":"Thornfield vs Rivenna", "sub":"Group B · Matchday 1" },
+      { "id":"m06", "cat":"hub", "full":"Casterbridge vs Kestrelia", "sub":"Group C · Matchday 4", "flagged":true, "flagNote":"Anomalous odds movement flagged" },
+      { "id":"m07", "cat":"hub", "full":"Meridia vs Aurelia", "sub":"Group C · Matchday 5 (Decider)", "flagged":true, "flagNote":"Anomalous odds movement flagged" },
+      { "id":"m08", "cat":"hub", "full":"Vantoria vs Norlund", "sub":"Group A · Matchday 3" },
+      { "id":"m09", "cat":"hub", "full":"Cassaway vs Iberrin", "sub":"Group A · Matchday 4" },
+      { "id":"m10", "cat":"hub", "full":"Solmara vs Thornfield", "sub":"Group B · Matchday 2" },
+
+      { "id":"r01", "cat":"ubo", "full":"Oskar Lindmann", "sub":"Referee", "flagged":true, "flagNote":"Irregular officiating pattern across flagged matches" },
+      { "id":"r02", "cat":"ubo", "full":"Ingrid Faber", "sub":"Referee" },
+      { "id":"r03", "cat":"ubo", "full":"Tobias Renfrew", "sub":"Referee", "flagged":true, "flagNote":"Irregular officiating pattern across flagged matches" },
+      { "id":"r04", "cat":"ubo", "full":"Camille Duarte", "sub":"Referee" },
+      { "id":"r05", "cat":"ubo", "full":"Halvor Eiken", "sub":"Referee" },
+      { "id":"r06", "cat":"ubo", "full":"Priya Nandakumar", "sub":"Referee" },
+      { "id":"r07", "cat":"ubo", "full":"Emeka Solano", "sub":"Referee" },
+      { "id":"r08", "cat":"ubo", "full":"Bjornar Kass", "sub":"VAR Official", "flagged":true, "flagNote":"Irregular officiating pattern across flagged matches" },
+
+      { "id":"syn_solvana", "cat":"corp", "full":"Solvana Consortium", "sub":"Suspected Fixing Syndicate" },
+      { "id":"syn02", "cat":"corp", "full":"Redline Advisory Group", "sub":"Suspected Fixing Syndicate" },
+      { "id":"syn03", "cat":"corp", "full":"Compass Point Partners", "sub":"Suspected Fixing Syndicate" },
+      { "id":"syn04", "cat":"corp", "full":"Tidewater Consulting", "sub":"Suspected Fixing Syndicate" },
+
+      { "id":"bm_ridgeline", "cat":"defense", "full":"Ridgeline Sports Exchange", "sub":"Licensed Bookmaker" },
+      { "id":"bm02", "cat":"defense", "full":"Northgate Odds Ltd", "sub":"Licensed Bookmaker" },
+      { "id":"bm03", "cat":"defense", "full":"Fairway Betting Co", "sub":"Licensed Bookmaker" },
+      { "id":"bm04", "cat":"defense", "full":"Steadfast Wagering Group", "sub":"Licensed Bookmaker" },
+      { "id":"bm05", "cat":"defense", "full":"Crestline Sportsbook", "sub":"Licensed Bookmaker" },
+      { "id":"bm06", "cat":"defense", "full":"Anchor Point Betting", "sub":"Licensed Bookmaker" },
+
+      { "id":"bm_vantage", "cat":"statesec", "full":"Vantage Blue Betting Ltd", "sub":"Offshore Bookmaker", "flagged":true, "flagNote":"Linked to suspected coordination" },
+      { "id":"bm08", "cat":"statesec", "full":"Silverreach Wagering International", "sub":"Offshore Bookmaker" },
+      { "id":"bm09", "cat":"statesec", "full":"Duskline Exchange", "sub":"Offshore Bookmaker" },
+      { "id":"bm10", "cat":"statesec", "full":"Farhaven Bet Network", "sub":"Offshore Bookmaker" },
+      { "id":"bm11", "cat":"statesec", "full":"Obscura Markets Ltd", "sub":"Offshore Bookmaker" },
+      { "id":"bm12", "cat":"statesec", "full":"Tallowick Sports Trading", "sub":"Offshore Bookmaker" },
+
+      { "id":"pl01", "cat":"customer", "full":"Jonah Reyes", "sub":"Player" },
+      { "id":"pl02", "cat":"customer", "full":"Marek Stensrud", "sub":"Player" },
+      { "id":"pl03", "cat":"customer", "full":"Idris Okafor-Lund", "sub":"Player" },
+      { "id":"pl04", "cat":"customer", "full":"Théo Vasseur", "sub":"Player" },
+      { "id":"pl05", "cat":"customer", "full":"Aksel Thorvald", "sub":"Player" },
+      { "id":"pl06", "cat":"customer", "full":"Rui Castellan", "sub":"Player" },
+      { "id":"pl07", "cat":"customer", "full":"Björn Halvorsen", "sub":"Player" },
+      { "id":"pl08", "cat":"customer", "full":"Malik Farsi", "sub":"Player" }
+    ],
+    "linkDefs": [
+      {"s":"r01", "t":"m01", "tp":"sup", "label":"MATCH OFFICIAL"}, {"s":"r01", "t":"m02", "tp":"sup", "label":"MATCH OFFICIAL"}, {"s":"r01", "t":"m07", "tp":"sup", "label":"MATCH OFFICIAL"},
+      {"s":"r02", "t":"m03", "tp":"sup", "label":"MATCH OFFICIAL"}, {"s":"r03", "t":"m04", "tp":"sup", "label":"MATCH OFFICIAL"}, {"s":"r03", "t":"m06", "tp":"sup", "label":"MATCH OFFICIAL"},
+      {"s":"r04", "t":"m08", "tp":"sup", "label":"MATCH OFFICIAL"}, {"s":"r05", "t":"m10", "tp":"sup", "label":"MATCH OFFICIAL"}, {"s":"r06", "t":"m05", "tp":"sup", "label":"MATCH OFFICIAL"},
+      {"s":"r07", "t":"m09", "tp":"sup", "label":"MATCH OFFICIAL"},
+      {"s":"r08", "t":"m02", "tp":"sup", "label":"VAR OFFICIAL"},
+      {"s":"r08", "t":"m07", "tp":"sup", "label":"VAR OFFICIAL"},
+
+      {"s":"pl01", "t":"m01", "tp":"cl", "label":"MATCH APPEARANCE"}, {"s":"pl01", "t":"m02", "tp":"cl", "label":"MATCH APPEARANCE"}, {"s":"pl01", "t":"m07", "tp":"cl", "label":"MATCH APPEARANCE"},
+      {"s":"pl02", "t":"m01", "tp":"cl", "label":"MATCH APPEARANCE"}, {"s":"pl02", "t":"m06", "tp":"cl", "label":"MATCH APPEARANCE"},
+      {"s":"pl03", "t":"m03", "tp":"cl", "label":"MATCH APPEARANCE"}, {"s":"pl03", "t":"m08", "tp":"cl", "label":"MATCH APPEARANCE"},
+      {"s":"pl04", "t":"m04", "tp":"cl", "label":"MATCH APPEARANCE"}, {"s":"pl04", "t":"m09", "tp":"cl", "label":"MATCH APPEARANCE"},
+      {"s":"pl05", "t":"m05", "tp":"cl", "label":"MATCH APPEARANCE"}, {"s":"pl05", "t":"m10", "tp":"cl", "label":"MATCH APPEARANCE"},
+      {"s":"pl06", "t":"m02", "tp":"cl", "label":"MATCH APPEARANCE"}, {"s":"pl06", "t":"m07", "tp":"cl", "label":"MATCH APPEARANCE"},
+      {"s":"pl07", "t":"m03", "tp":"cl", "label":"MATCH APPEARANCE"}, {"s":"pl07", "t":"m06", "tp":"cl", "label":"MATCH APPEARANCE"},
+      {"s":"pl08", "t":"m08", "tp":"cl", "label":"MATCH APPEARANCE"}, {"s":"pl08", "t":"m09", "tp":"cl", "label":"MATCH APPEARANCE"}, {"s":"pl08", "t":"m10", "tp":"cl", "label":"MATCH APPEARANCE"},
+
+      {"s":"bm_ridgeline", "t":"m03", "tp":"sup", "label":"BOOKMAKER MARKET"}, {"s":"bm_ridgeline", "t":"m05", "tp":"sup", "label":"BOOKMAKER MARKET"},
+      {"s":"bm_ridgeline", "t":"m08", "tp":"sup", "label":"BOOKMAKER MARKET"}, {"s":"bm_ridgeline", "t":"m09", "tp":"sup", "label":"BOOKMAKER MARKET"}, {"s":"bm_ridgeline", "t":"m10", "tp":"sup", "label":"BOOKMAKER MARKET"},
+      {"s":"bm02", "t":"m01", "tp":"sup", "label":"BOOKMAKER MARKET"}, {"s":"bm02", "t":"m03", "tp":"sup", "label":"BOOKMAKER MARKET"}, {"s":"bm02", "t":"m06", "tp":"sup", "label":"BOOKMAKER MARKET"},
+      {"s":"bm03", "t":"m04", "tp":"sup", "label":"BOOKMAKER MARKET"}, {"s":"bm03", "t":"m08", "tp":"sup", "label":"BOOKMAKER MARKET"}, {"s":"bm03", "t":"m10", "tp":"sup", "label":"BOOKMAKER MARKET"},
+      {"s":"bm04", "t":"m05", "tp":"sup", "label":"BOOKMAKER MARKET"}, {"s":"bm04", "t":"m09", "tp":"sup", "label":"BOOKMAKER MARKET"},
+      {"s":"bm05", "t":"m02", "tp":"sup", "label":"BOOKMAKER MARKET"}, {"s":"bm05", "t":"m07", "tp":"sup", "label":"BOOKMAKER MARKET"},
+      {"s":"bm06", "t":"m06", "tp":"sup", "label":"BOOKMAKER MARKET"}, {"s":"bm06", "t":"m10", "tp":"sup", "label":"BOOKMAKER MARKET"},
+
+      {"s":"bm_vantage", "t":"m01", "tp":"sh", "label":"ANOMALOUS ODDS SHIFT"},
+      {"s":"bm_vantage", "t":"m02", "tp":"sh", "label":"ANOMALOUS ODDS SHIFT"},
+      {"s":"bm_vantage", "t":"m07", "tp":"sh", "label":"ANOMALOUS ODDS SHIFT"},
+      {"s":"bm08", "t":"m04", "tp":"sh", "label":"ANOMALOUS ODDS SHIFT"},
+      {"s":"bm09", "t":"m06", "tp":"sh", "label":"ANOMALOUS ODDS SHIFT"},
+      {"s":"bm10", "t":"m02", "tp":"sup", "label":"BOOKMAKER MARKET"},
+      {"s":"bm11", "t":"m07", "tp":"sup", "label":"BOOKMAKER MARKET"},
+      {"s":"bm12", "t":"m04", "tp":"sup", "label":"BOOKMAKER MARKET"},
+
+      {"s":"syn_solvana", "t":"bm_vantage", "tp":"sh", "label":"SUSPECTED COORDINATION"},
+      {"s":"syn_solvana", "t":"m02", "tp":"sh", "label":"SUSPECTED FIX"},
+      {"s":"syn_solvana", "t":"m04", "tp":"sh", "label":"SUSPECTED FIX"},
+      {"s":"syn02", "t":"bm09", "tp":"sh", "label":"SUSPECTED COORDINATION"},
+      {"s":"syn03", "t":"bm08", "tp":"sh", "label":"SUSPECTED COORDINATION"},
+      {"s":"syn04", "t":"m06", "tp":"sh", "label":"SUSPECTED FIX"},
+
+      {"s":"syn_solvana", "t":"r01", "tp":"sh", "label":"SUSPECTED PAYMENT"},
+      {"s":"syn_solvana", "t":"r08", "tp":"sh", "label":"SUSPECTED PAYMENT"},
+      {"s":"syn04", "t":"r03", "tp":"sh", "label":"SUSPECTED PAYMENT"}
+    ]
+  }
+}

@@ -810,8 +810,13 @@ body::before {
   opacity: 0.06;
 }
 
-.n-elabel.dimmed {
-  opacity: 0.06;
+.n-elabel {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.n-elabel.shown {
+  opacity: 1;
 }
 
 @keyframes nFlash {
