@@ -51,7 +51,7 @@
 
   // Rough label footprint used by the edge-label decluttering pass below.
   function labelHalfExtents(text) {
-    return { hw: text.length * 2.3 + 4, hh: 6 };
+    return { hw: text.length * 2.6 + 5, hh: 7 };
   }
 
   // ==========================================================================
@@ -183,12 +183,34 @@
         for (let i = 0; i < labelNodes.length; i++) {
           for (let j = i + 1; j < labelNodes.length; j++) {
             const a = labelNodes[i], b = labelNodes[j];
-            const dx = b.lx - a.lx, dy = b.ly - a.ly;
+            let dx = b.lx - a.lx, dy = b.ly - a.ly;
             const overlapX = (a.hw + b.hw) - Math.abs(dx);
             const overlapY = (a.hh + b.hh) - Math.abs(dy);
             if (overlapX > 0 && overlapY > 0) {
-              const push = Math.min(overlapY, 12) / 2 + 0.5;
-              if (dy >= 0) { a.ly -= push; b.ly += push; } else { a.ly += push; b.ly -= push; }
+              let dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < 0.01) { dx = (i % 2 ? 1 : -1) * 0.6; dy = 0.6; dist = Math.SQRT2 * 0.6; }
+              const overlap = Math.min(overlapX, overlapY);
+              const k = (overlap / 2 + 0.6) / dist;
+              const px = dx * k, py = dy * k;
+              a.lx -= px; a.ly -= py;
+              b.lx += px; b.ly += py;
+            }
+          }
+          // push labels off of node name text blocks (the node text never moves)
+          const a = labelNodes[i];
+          for (let k2 = 0; k2 < nodes.length; k2++) {
+            const nd = nodes[k2];
+            if (!nd._nlBox) continue;
+            const bx = nd.x, by = nd.y + nd._nlBox.cy;
+            let dx = a.lx - bx, dy = a.ly - by;
+            const overlapX = (a.hw + nd._nlBox.hw) - Math.abs(dx);
+            const overlapY = (a.hh + nd._nlBox.hh) - Math.abs(dy);
+            if (overlapX > 0 && overlapY > 0) {
+              let dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < 0.01) { dx = 0.6; dy = 0.6; dist = Math.SQRT2 * 0.6; }
+              const overlap = Math.min(overlapX, overlapY);
+              const k = (overlap + 1) / dist;
+              a.lx += dx * k; a.ly += dy * k;
             }
           }
         }
@@ -196,7 +218,7 @@
       labelNodes.forEach(ln => {
         const dx = ln.lx - ln.tx, dy = ln.ly - ln.ty;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const max = 24;
+        const max = 48;
         if (dist > max) { const k = max / dist; ln.lx = ln.tx + dx * k; ln.ly = ln.ty + dy * k; }
       });
     }
@@ -248,9 +270,10 @@
         .attr("transform", "translate(" + bx + "," + by + ")")
         .on("click", function(e) { e.stopPropagation(); cfg.onBadgeClick && cfg.onBadgeClick(d); });
       badge.append("rect").attr("x", -9).attr("y", -9).attr("width", 18).attr("height", 18)
-        .attr("rx", 4).attr("fill", "#e50b0b").attr("stroke", "#ffffff").attr("stroke-width", 1.5);
-      badge.append("circle").attr("cx", -4).attr("cy", -3).attr("r", 1.6).attr("fill", "#ffffff");
-      badge.append("circle").attr("cx", 4).attr("cy", 3).attr("r", 1.6).attr("fill", "#ffffff");
+        .attr("rx", 4).attr("fill", "#ffffff").attr("opacity", 0);
+      badge.append("g").attr("transform", "rotate(-14)")
+        .append("rect").attr("x", -6).attr("y", -8.5).attr("width", 12).attr("height", 17)
+        .attr("rx", 2.2).attr("fill", "#e50b0b").attr("stroke", "#ffffff").attr("stroke-width", 1.3);
     });
 
     node.each(function(d) {
@@ -267,8 +290,15 @@
         else cur = test;
       });
       if (cur) lines.push(cur);
+      const shown = lines.slice(0, 3);
+      const lineH = fs + 1.8;
+      d._nlBox = {
+        cy: yBase + (shown.length - 1) * lineH / 2,
+        hh: shown.length * lineH / 2 + 2,
+        hw: Math.max.apply(null, shown.map(l => l.length)) * fs * 0.32 + 3
+      };
 
-      lines.slice(0,3).forEach((line,i) => {
+      shown.forEach((line,i) => {
         d3.select(this).append("text")
           .attr("font-family", "'Century Gothic','Futura','Trebuchet MS',sans-serif")
           .attr("font-size", fs+"px").attr("font-weight", "bold")
@@ -322,7 +352,7 @@
     sim.on("tick", () => {
       link.attr("x1", d=>d.source.x).attr("y1", d=>d.source.y)
           .attr("x2", d=>d.target.x).attr("y2", d=>d.target.y);
-      declutterLabels(2);
+      declutterLabels(4);
       [edgeLabelHalo, edgeLabel].forEach(sel => sel.attr("x", d => d.lx).attr("y", d => d.ly));
       node.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
     });
@@ -330,7 +360,7 @@
     let saved = null;
     sim.on("end", () => {
       if (!saved) {
-        declutterLabels(20);
+        declutterLabels(60);
         saved = {};
         nodes.forEach(d => { saved[d.id] = {x:d.x, y:d.y}; });
         labelNodes.forEach(ln => { ln.savedLx = ln.lx; ln.savedLy = ln.ly; });
