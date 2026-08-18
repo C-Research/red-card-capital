@@ -49,6 +49,11 @@
     });
   }
 
+  // Rough label footprint used by the edge-label decluttering pass below.
+  function labelHalfExtents(text) {
+    return { hw: text.length * 2.3 + 4, hh: 6 };
+  }
+
   // ==========================================================================
   // Factory — builds one full network graph instance inside a suffixed set
   // of DOM elements ("a" or "b"). Returns {flashNode, clearHighlight}.
@@ -83,40 +88,135 @@
         .on("zoom", function(e) { g.attr("transform", e.transform); })
     );
 
+    // -- BFS distance from the hub category — powers the radial layout -------
+    const hubDist = (function () {
+      const adj = new Map();
+      nodes.forEach(n => adj.set(n.id, []));
+      linkDefs.forEach(l => { adj.get(l.s).push(l.t); adj.get(l.t).push(l.s); });
+      const dist = new Map();
+      const queue = [];
+      nodes.forEach(n => { if (catCfg[n.cat].tier === 2) { dist.set(n.id, 0); queue.push(n.id); } });
+      let qi = 0;
+      while (qi < queue.length) {
+        const id = queue[qi++];
+        const d = dist.get(id);
+        adj.get(id).forEach(nb => { if (!dist.has(nb)) { dist.set(nb, d + 1); queue.push(nb); } });
+      }
+      nodes.forEach(n => { if (!dist.has(n.id)) dist.set(n.id, 3); });
+      return dist;
+    })();
+    const RADIAL_BASE = 42, RADIAL_GAP = Math.min(96, (Math.min(W, H) / 2 - 60) / 3);
+    function radialR(d) { return RADIAL_BASE + Math.min(hubDist.get(d.id), 3) * RADIAL_GAP; }
+
+    // -- Even x-slots per tier row — powers the tiered layout ----------------
+    const tieredSlotX = (function () {
+      const rows = {};
+      nodes.forEach(n => { const t = catCfg[n.cat].tier; (rows[t] = rows[t] || []).push(n); });
+      const slot = new Map();
+      Object.keys(rows).forEach(t => {
+        const arr = rows[t];
+        const margin = 64;
+        const usable = Math.max(W - margin * 2, 1);
+        arr.forEach((n, i) => slot.set(n.id, arr.length === 1 ? W / 2 : margin + usable * (i / (arr.length - 1))));
+      });
+      return slot;
+    })();
+
     const sim = d3.forceSimulation(nodes)
-      .force("link", d3.forceLink(linkData).id(d => d.id)
-        .distance(d => d.type === "sh" ? 120 : d.type === "sup" ? 108 : 128)
-        .strength(0.17))
-      .force("charge", d3.forceManyBody().strength(d =>
-        catCfg[d.cat].tier === 2 ? -900 :
-        catCfg[d.cat].tier === 1 ? -560 : -240))
-      .force("center", d3.forceCenter(W/2, H/2).strength(0.01))
-      .force("collide", d3.forceCollide(d => catCfg[d.cat].r + cfg.collidePad))
-      .force("y", d3.forceY(d => H * tierY[catCfg[d.cat].tier]).strength(0.28))
-      .force("x", d3.forceX(d => tierX[d.cat]).strength(d =>
-        (d.cat === "defense" || d.cat === "statesec") ? 0.40 :
-        d.cat === "customer" ? 0.30 : 0.02
-      ));
+      .force("collide", d3.forceCollide(d => catCfg[d.cat].r + cfg.collidePad));
+
+    let layoutMode = "force";
+    function applyLayout(mode) {
+      layoutMode = mode;
+      nodes.forEach(n => { n.fx = null; n.fy = null; });
+      if (mode === "radial") {
+        sim.force("x", null);
+        sim.force("y", null);
+        sim.force("center", null);
+        sim.force("radial", d3.forceRadial(radialR, W / 2, H / 2).strength(0.85));
+        sim.force("charge", d3.forceManyBody().strength(-130));
+        sim.force("link", d3.forceLink(linkData).id(d => d.id).distance(44).strength(0.25));
+      } else if (mode === "tiered") {
+        sim.force("radial", null);
+        sim.force("center", null);
+        sim.force("x", d3.forceX(d => tieredSlotX.get(d.id)).strength(0.9));
+        sim.force("y", d3.forceY(d => H * tierY[catCfg[d.cat].tier]).strength(0.9));
+        sim.force("charge", d3.forceManyBody().strength(-50));
+        sim.force("link", d3.forceLink(linkData).id(d => d.id).distance(56).strength(0.3));
+      } else {
+        sim.force("radial", null);
+        sim.force("center", d3.forceCenter(W / 2, H / 2).strength(0.05));
+        sim.force("y", d3.forceY(d => H * tierY[catCfg[d.cat].tier]).strength(0.28));
+        sim.force("x", d3.forceX(d => tierX[d.cat]).strength(d =>
+          (d.cat === "defense" || d.cat === "statesec") ? 0.40 :
+          d.cat === "customer" ? 0.30 : 0.02
+        ));
+        sim.force("charge", d3.forceManyBody().strength(d =>
+          catCfg[d.cat].tier === 2 ? -520 :
+          catCfg[d.cat].tier === 1 ? -360 : -170));
+        sim.force("link", d3.forceLink(linkData).id(d => d.id)
+          .distance(d => d.type === "sh" ? 100 : d.type === "sup" ? 92 : 108)
+          .strength(0.22));
+      }
+      saved = null;
+      sim.alpha(1).restart();
+    }
 
     const link = g.append("g").selectAll("line").data(linkData).join("line")
       .attr("class", d => "n-link" + (d.type === "sh" ? " sh-link" : ""));
 
+    // -- Edge labels — decluttered each tick so nearby labels push apart -----
+    const labelNodes = linkData.filter(l => l.label).map(l => {
+      const ext = labelHalfExtents(l.label);
+      return { link: l, lx: null, ly: null, tx: 0, ty: 0, hw: ext.hw, hh: ext.hh };
+    });
+
+    function declutterLabels(iterations) {
+      labelNodes.forEach(ln => {
+        const s = ln.link.source, t = ln.link.target;
+        const tx = (s.x + t.x) / 2, ty = (s.y + t.y) / 2;
+        ln.tx = tx; ln.ty = ty;
+        if (ln.lx === null) { ln.lx = tx; ln.ly = ty; }
+        else { ln.lx += (tx - ln.lx) * 0.18; ln.ly += (ty - ln.ly) * 0.18; }
+      });
+      for (let it = 0; it < iterations; it++) {
+        for (let i = 0; i < labelNodes.length; i++) {
+          for (let j = i + 1; j < labelNodes.length; j++) {
+            const a = labelNodes[i], b = labelNodes[j];
+            const dx = b.lx - a.lx, dy = b.ly - a.ly;
+            const overlapX = (a.hw + b.hw) - Math.abs(dx);
+            const overlapY = (a.hh + b.hh) - Math.abs(dy);
+            if (overlapX > 0 && overlapY > 0) {
+              const push = Math.min(overlapY, 12) / 2 + 0.5;
+              if (dy >= 0) { a.ly -= push; b.ly += push; } else { a.ly += push; b.ly -= push; }
+            }
+          }
+        }
+      }
+      labelNodes.forEach(ln => {
+        const dx = ln.lx - ln.tx, dy = ln.ly - ln.ty;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const max = 24;
+        if (dist > max) { const k = max / dist; ln.lx = ln.tx + dx * k; ln.ly = ln.ty + dy * k; }
+      });
+    }
+
     const edgeLabelHalo = g.append("g").selectAll("text")
-      .data(linkData.filter(l => l.label)).join("text")
+      .data(labelNodes).join("text")
       .attr("font-family", "'Century Gothic','Futura','Trebuchet MS',sans-serif")
       .attr("font-size", "8px").attr("font-weight", "bold")
       .attr("fill", "none").attr("stroke", "#ffffff").attr("stroke-width", 4)
       .attr("stroke-linejoin", "round")
       .attr("text-anchor", "middle").attr("dominant-baseline", "middle")
-      .attr("pointer-events", "none").text(d => d.label);
+      .attr("pointer-events", "none").text(d => d.link.label);
 
     const edgeLabel = g.append("g").selectAll("text")
-      .data(linkData.filter(l => l.label)).join("text")
+      .data(labelNodes).join("text")
       .attr("font-family", "'Century Gothic','Futura','Trebuchet MS',sans-serif")
       .attr("font-size", "8px").attr("font-weight", "bold")
       .attr("fill", "#122945")
       .attr("text-anchor", "middle").attr("dominant-baseline", "middle")
-      .attr("pointer-events", "none").text(d => d.label);
+      .attr("pointer-events", "none").text(d => d.link.label);
 
     const tooltip = el("n-tooltip");
 
@@ -222,15 +322,19 @@
     sim.on("tick", () => {
       link.attr("x1", d=>d.source.x).attr("y1", d=>d.source.y)
           .attr("x2", d=>d.target.x).attr("y2", d=>d.target.y);
-      [edgeLabelHalo, edgeLabel].forEach(sel => sel
-        .attr("x", d=>(d.source.x+d.target.x)/2)
-        .attr("y", d=>(d.source.y+d.target.y)/2));
+      declutterLabels(2);
+      [edgeLabelHalo, edgeLabel].forEach(sel => sel.attr("x", d => d.lx).attr("y", d => d.ly));
       node.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
     });
 
     let saved = null;
     sim.on("end", () => {
-      if (!saved) { saved = {}; nodes.forEach(d => { saved[d.id] = {x:d.x, y:d.y}; }); }
+      if (!saved) {
+        declutterLabels(20);
+        saved = {};
+        nodes.forEach(d => { saved[d.id] = {x:d.x, y:d.y}; });
+        labelNodes.forEach(ln => { ln.savedLx = ln.lx; ln.savedLy = ln.ly; });
+      }
     });
 
     el("n-reset").addEventListener("click", () => {
@@ -244,10 +348,10 @@
         .attr("x1", d=>saved[d.source.id].x).attr("y1", d=>saved[d.source.id].y)
         .attr("x2", d=>saved[d.target.id].x).attr("y2", d=>saved[d.target.id].y);
       [edgeLabelHalo, edgeLabel].forEach(sel => sel.transition(t)
-        .attr("x", d=>(saved[d.source.id].x+saved[d.target.id].x)/2)
-        .attr("y", d=>(saved[d.source.id].y+saved[d.target.id].y)/2));
+        .attr("x", d => d.savedLx).attr("y", d => d.savedLy));
       setTimeout(() => {
         nodes.forEach(d => { d.x = saved[d.id].x; d.y = saved[d.id].y; });
+        labelNodes.forEach(ln => { ln.lx = ln.savedLx; ln.ly = ln.savedLy; });
         sim.alphaDecay(1).alpha(0.0001).restart();
       }, 650);
     });
@@ -281,6 +385,24 @@
     }
     function searchReset() { node.classed("dimmed", false); node.classed("flashing", false); link.classed("dimmed", false); }
     function searchClear() { el("n-search").value = ""; el("n-search-clear").classList.remove("visible"); searchReset(); }
+
+    // -- Layout selector -------------------------------------------------------
+    el("n-layout-btn").addEventListener("click", function() {
+      el("n-layout-panel").classList.toggle("visible");
+      this.querySelector(".layout-arrow").classList.toggle("open");
+    });
+    const layoutPanel = el("n-layout-panel");
+    layoutPanel.querySelectorAll(".lo-row").forEach(row => {
+      row.addEventListener("click", () => {
+        layoutPanel.classList.remove("visible");
+        el("n-layout-btn").querySelector(".layout-arrow").classList.remove("open");
+        if (row.classList.contains("on")) return;
+        layoutPanel.querySelectorAll(".lo-row").forEach(r => r.classList.remove("on"));
+        row.classList.add("on");
+        applyLayout(row.dataset.lo);
+      });
+    });
+    applyLayout("force");
 
     // -- Legend / Filter toggles ----------------------------------------------
     el("n-legend-btn").addEventListener("click", function() {
