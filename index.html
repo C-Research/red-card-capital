@@ -1,179 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RedCardCapital — FIFA Corruption &amp; Betting Integrity Network</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='49' r='46' fill='%23062a47'/%3E%3Cg transform='rotate(-15 58 44)'%3E%3Crect x='45' y='20' width='28' height='40' rx='5' fill='%23f75151'/%3E%3C/g%3E%3Ccircle cx='33' cy='68' r='14' fill='%233bbc97'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RedCardCapital — FIFA Corruption &amp; Betting Integrity Network</title>
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='49' r='46' fill='%23062a47'/%3E%3Cg transform='rotate(-15 58 44)'%3E%3Crect x='45' y='20' width='28' height='40' rx='5' fill='%23f75151'/%3E%3C/g%3E%3Ccircle cx='33' cy='68' r='14' fill='%233bbc97'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-<div id="app-shell">
+  <div id="app-shell">
 
-  <div id="brand-bar">
-    <div id="brand-mark">
-      <img src="logo.png" alt="RedCardCapital crest">
+    <div id="brand-bar">
+      <div id="brand-mark">
+        <img src="logo.png" alt="RedCardCapital crest">
+      </div>
+      <div id="brand-text">
+        <div id="brand-name"><span class="w-red">Red</span><span class="w-card">Card</span><span
+            class="w-cap">Capital</span></div>
+        <div id="brand-tag">Financial Crime &amp; Match-Fixing Intelligence</div>
+      </div>
     </div>
-    <div id="brand-text">
-      <div id="brand-name"><span class="w-red">Red</span><span class="w-card">Card</span><span class="w-cap">Capital</span></div>
-      <div id="brand-tag">Financial Crime &amp; Match-Fixing Intelligence</div>
+
+    <div id="app-header">
+      <h1>FIFA Corruption &amp; Betting Integrity Network</h1>
+      <div class="rule"></div>
+      <p class="lede">Prototype dashboard linking politically exposed FIFA officials, their corporate and asset ties,
+        and cross-border funding, to sports betting markets and suspected match manipulation. Click the red badge on a
+        flagged official to jump to their linked gambling holding.</p>
     </div>
-  </div>
 
-  <div id="app-header">
-    <h1>FIFA Corruption &amp; Betting Integrity Network</h1>
-    <div class="rule"></div>
-    <p class="lede">Prototype dashboard linking politically exposed FIFA officials, their corporate and asset ties, and cross-border funding, to sports betting markets and suspected match manipulation. Click the red badge on a flagged official to jump to their linked gambling holding.</p>
-  </div>
+    <div id="tab-nav">
+      <button class="tab-btn active" data-tab="tab1">FIFA Entity Network</button>
+      <button class="tab-btn" data-tab="tab2">Match &amp; Betting Network</button>
+    </div>
 
-  <div id="tab-nav">
-    <button class="tab-btn active" data-tab="tab1">FIFA Entity Network</button>
-    <button class="tab-btn" data-tab="tab2">Match &amp; Betting Network</button>
-  </div>
+    <div class="tab-panel active" id="tab1">
+      <div class="network-wrap" id="wrap-a">
+        <svg class="n-svg" id="network-svg-a"></svg>
+        <div class="n-tooltip" id="n-tooltip-a"></div>
 
-  <div class="tab-panel active" id="tab1">
-    <div class="network-wrap" id="wrap-a">
-      <svg class="n-svg" id="network-svg-a"></svg>
-      <div class="n-tooltip" id="n-tooltip-a"></div>
-
-      <div class="n-search-wrap">
-        <div class="n-search-row">
-          <div class="n-legend">
-            <button class="n-legend-btn" id="n-legend-btn-a">Legend <span class="leg-arrow"></span></button>
-            <div class="n-legend-panel" id="n-legend-panel-a">
-              <div class="leg-row"><div class="leg-dot" style="background:#122945"></div>FIFA Leadership / Officials (PEP)</div>
-              <div class="leg-sub">Red ring = under active investigation</div>
-              <div class="leg-row"><div class="leg-dot" style="background:#043d5d"></div>Sponsors &amp; Vendors</div>
-              <div class="leg-row"><div class="leg-dot" style="background:#f75151"></div>FIFA (Governing Body)</div>
-              <div class="leg-row"><div class="leg-dot" style="background:#a0b9d0"></div>Players</div>
-              <div class="leg-row"><div class="leg-dot" style="background:#a0b9d0;border:2px solid #225b7b"></div>State-Linked Sponsors / Foreign Gov't Funding</div>
-              <div class="leg-row"><div class="leg-dot" style="background:#3bbc97"></div>Assets &amp; Shell Entities</div>
-              <div class="leg-row"><div class="leg-dot" style="background:#e50b0b;border-radius:2px;width:8px;height:11px;transform:rotate(-14deg);"></div>Linked gambling holding — click to explore</div>
-              <div class="leg-row"><div class="leg-line" style="background:#122945;height:3px"></div>Key relationship (ownership / funding / payment)</div>
+        <div class="n-search-wrap">
+          <div class="n-search-row">
+            <div class="n-legend">
+              <button class="n-legend-btn" id="n-legend-btn-a">Legend <span class="leg-arrow"></span></button>
+              <div class="n-legend-panel" id="n-legend-panel-a">
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#122945"></div>FIFA Leadership / Officials (PEP)
+                </div>
+                <div class="leg-sub">Red ring = under active investigation</div>
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#043d5d"></div>Sponsors &amp; Vendors
+                </div>
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#f75151"></div>FIFA (Governing Body)
+                </div>
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#a0b9d0"></div>Players
+                </div>
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#a0b9d0;border:2px solid #225b7b"></div>State-Linked Sponsors /
+                  Foreign Gov't Funding
+                </div>
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#3bbc97"></div>Assets &amp; Shell Entities
+                </div>
+                <div class="leg-row">
+                  <div class="leg-dot"
+                    style="background:#e50b0b;border-radius:2px;width:8px;height:11px;transform:rotate(-14deg);"></div>
+                  Linked gambling holding — click to explore
+                </div>
+                <div class="leg-row">
+                  <div class="leg-line" style="background:#122945;height:3px"></div>Key relationship (ownership /
+                  funding / payment)
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="n-filter">
-            <button class="n-filter-btn" id="n-filter-btn-a">Filter <span class="filter-arrow"></span></button>
-            <div class="n-filter-panel" id="n-filter-panel-a"></div>
-          </div>
-          <div class="n-layout">
-            <button class="n-layout-btn" id="n-layout-btn-a">Layout <span class="layout-arrow"></span></button>
-            <div class="n-layout-panel" id="n-layout-panel-a">
-              <div class="lo-row on" data-lo="force"><span class="lo-radio"></span>Force<span class="lo-sub">Organic clustering</span></div>
-              <div class="lo-row" data-lo="radial"><span class="lo-radio"></span>Radial<span class="lo-sub">Rings out from FIFA</span></div>
-              <div class="lo-row" data-lo="tiered"><span class="lo-radio"></span>Tiered<span class="lo-sub">Aligned rows by role</span></div>
+            <div class="n-filter">
+              <button class="n-filter-btn" id="n-filter-btn-a">Filter <span class="filter-arrow"></span></button>
+              <div class="n-filter-panel" id="n-filter-panel-a"></div>
             </div>
-          </div>
-          <button class="n-search-icon-btn" id="n-search-icon-btn-a" title="Search nodes">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="11" cy="11" r="7" stroke="#122945" stroke-width="2" stroke-linecap="round"/>
-              <path d="M16.5 16.5L21 21" stroke="#122945" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </button>
-          <div class="n-search-box" id="n-search-box-a">
-            <input class="n-search" id="n-search-a" type="text" placeholder="Search nodes...">
-            <button class="n-search-clear" id="n-search-clear-a" title="Clear">x</button>
-            <button class="n-search-go" id="n-search-go-a">Go</button>
+            <div class="n-layout">
+              <button class="n-layout-btn" id="n-layout-btn-a">Layout <span class="layout-arrow"></span></button>
+              <div class="n-layout-panel" id="n-layout-panel-a">
+                <div class="lo-row" data-lo="force"><span class="lo-radio"></span>Force<span class="lo-sub">Organic
+                    clustering</span></div>
+                <div class="lo-row" data-lo="radial"><span class="lo-radio"></span>Radial<span class="lo-sub">Rings out
+                    from FIFA</span></div>
+                <div class="lo-row on" data-lo="tiered"><span class="lo-radio"></span>Tiered<span class="lo-sub">Aligned
+                    rows by role</span></div>
+              </div>
+            </div>
+            <button class="n-search-icon-btn" id="n-search-icon-btn-a" title="Search nodes">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="7" stroke="#122945" stroke-width="2" stroke-linecap="round" />
+                <path d="M16.5 16.5L21 21" stroke="#122945" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+            <div class="n-search-box" id="n-search-box-a">
+              <input class="n-search" id="n-search-a" type="text" placeholder="Search nodes...">
+              <button class="n-search-clear" id="n-search-clear-a" title="Clear">x</button>
+              <button class="n-search-go" id="n-search-go-a">Go</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <button class="n-reset" id="n-reset-a">
-        <svg class="ri" width="12" height="12" viewBox="0 0 24 24" fill="none">
-          <path d="M20 4V10H14" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M4 20V14H10" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
-        Reset
-      </button>
+        <button class="n-reset" id="n-reset-a">
+          <svg class="ri" width="12" height="12" viewBox="0 0 24 24" fill="none">
+            <path d="M20 4V10H14" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M4 20V14H10" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2.5"
+              stroke-linecap="round" />
+            <path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945"
+              stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+          Reset
+        </button>
 
-      <div class="n-help-panel" id="n-help-panel-a">
-        <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M17.1603 16.9887L21.0519 15.4659C21.4758 15.3001 21.4756 14.7003 21.0517 14.5346L11.6992 10.8799C11.2933 10.7213 10.8929 11.1217 11.0515 11.5276L14.7062 20.8801C14.8719 21.304 15.4717 21.3042 15.6375 20.8803L17.1603 16.9887Z" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Drag a node to move it</div>
-        <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M17.1603 16.9887L21.0519 15.4659C21.4758 15.3001 21.4756 14.7003 21.0517 14.5346L11.6992 10.8799C11.2933 10.7213 10.8929 11.1217 11.0515 11.5276L14.7062 20.8801C14.8719 21.304 15.4717 21.3042 15.6375 20.8803L17.1603 16.9887Z" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Drag background to pan</div>
-        <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="8" y="2" width="8" height="14" rx="4" stroke="#122945" stroke-width="2"/><line x1="12" y1="6" x2="12" y2="9" stroke="#122945" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="16" x2="12" y2="20" stroke="#122945" stroke-width="2" stroke-linecap="round"/></svg>Scroll to zoom in / out</div>
-        <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M20 4V10H14" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20V14H10" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2" stroke-linecap="round"/><path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945" stroke-width="2" stroke-linecap="round"/></svg>Reset restores layout</div>
-        <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="7" y="4" width="9" height="13" rx="1.5" fill="#e50b0b" transform="rotate(-14 12 12)"/></svg>Red card = linked gambling holding, click to jump</div>
+        <div class="n-help-panel" id="n-help-panel-a">
+          <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M17.1603 16.9887L21.0519 15.4659C21.4758 15.3001 21.4756 14.7003 21.0517 14.5346L11.6992 10.8799C11.2933 10.7213 10.8929 11.1217 11.0515 11.5276L14.7062 20.8801C14.8719 21.304 15.4717 21.3042 15.6375 20.8803L17.1603 16.9887Z"
+                stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>Drag a node to move it</div>
+          <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M17.1603 16.9887L21.0519 15.4659C21.4758 15.3001 21.4756 14.7003 21.0517 14.5346L11.6992 10.8799C11.2933 10.7213 10.8929 11.1217 11.0515 11.5276L14.7062 20.8801C14.8719 21.304 15.4717 21.3042 15.6375 20.8803L17.1603 16.9887Z"
+                stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>Drag background to pan</div>
+          <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <rect x="8" y="2" width="8" height="14" rx="4" stroke="#122945" stroke-width="2" />
+              <line x1="12" y1="6" x2="12" y2="9" stroke="#122945" stroke-width="2" stroke-linecap="round" />
+              <line x1="12" y1="16" x2="12" y2="20" stroke="#122945" stroke-width="2" stroke-linecap="round" />
+            </svg>Scroll to zoom in / out</div>
+          <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <path d="M20 4V10H14" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M4 20V14H10" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2"
+                stroke-linecap="round" />
+              <path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945"
+                stroke-width="2" stroke-linecap="round" />
+            </svg>Reset restores layout</div>
+          <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <rect x="7" y="4" width="9" height="13" rx="1.5" fill="#e50b0b" transform="rotate(-14 12 12)" />
+            </svg>Red card = linked gambling holding, click to jump</div>
+        </div>
+        <button class="n-help-btn" id="n-help-btn-a">?</button>
       </div>
-      <button class="n-help-btn" id="n-help-btn-a">?</button>
     </div>
-  </div>
 
-  <div class="tab-panel" id="tab2">
-    <div class="network-wrap" id="wrap-b">
-      <svg class="n-svg" id="network-svg-b"></svg>
-      <div class="n-tooltip" id="n-tooltip-b"></div>
+    <div class="tab-panel" id="tab2">
+      <div class="network-wrap" id="wrap-b">
+        <svg class="n-svg" id="network-svg-b"></svg>
+        <div class="n-tooltip" id="n-tooltip-b"></div>
 
-      <div class="n-search-wrap">
-        <div class="n-search-row">
-          <div class="n-legend">
-            <button class="n-legend-btn" id="n-legend-btn-b">Legend <span class="leg-arrow"></span></button>
-            <div class="n-legend-panel" id="n-legend-panel-b">
-              <div class="leg-row"><div class="leg-dot" style="background:#122945"></div>Referees</div>
-              <div class="leg-sub">Red ring = irregular officiating pattern</div>
-              <div class="leg-row"><div class="leg-dot" style="background:#043d5d"></div>Suspected Fixing Syndicates</div>
-              <div class="leg-row"><div class="leg-dot" style="background:#f75151"></div>Matches</div>
-              <div class="leg-sub">Red ring = anomalous odds movement flagged</div>
-              <div class="leg-row"><div class="leg-dot" style="background:#a0b9d0"></div>Licensed Bookmakers</div>
-              <div class="leg-row"><div class="leg-dot" style="background:#a0b9d0;border:2px solid #225b7b"></div>Offshore / Unregulated Bookmakers</div>
-              <div class="leg-row"><div class="leg-dot" style="background:#3bbc97"></div>Players</div>
-              <div class="leg-row"><div class="leg-line" style="background:#122945;height:3px"></div>Key relationship (odds shift / suspected fix / payment)</div>
+        <div class="n-search-wrap">
+          <div class="n-search-row">
+            <div class="n-legend">
+              <button class="n-legend-btn" id="n-legend-btn-b">Legend <span class="leg-arrow"></span></button>
+              <div class="n-legend-panel" id="n-legend-panel-b">
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#122945"></div>Referees
+                </div>
+                <div class="leg-sub">Red ring = irregular officiating pattern</div>
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#043d5d"></div>Suspected Fixing Syndicates
+                </div>
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#f75151"></div>Matches
+                </div>
+                <div class="leg-sub">Red ring = anomalous odds movement flagged</div>
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#a0b9d0"></div>Licensed Bookmakers
+                </div>
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#a0b9d0;border:2px solid #225b7b"></div>Offshore / Unregulated
+                  Bookmakers
+                </div>
+                <div class="leg-row">
+                  <div class="leg-dot" style="background:#3bbc97"></div>Players
+                </div>
+                <div class="leg-row">
+                  <div class="leg-line" style="background:#122945;height:3px"></div>Key relationship (odds shift /
+                  suspected fix / payment)
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="n-filter">
-            <button class="n-filter-btn" id="n-filter-btn-b">Filter <span class="filter-arrow"></span></button>
-            <div class="n-filter-panel" id="n-filter-panel-b"></div>
-          </div>
-          <div class="n-layout">
-            <button class="n-layout-btn" id="n-layout-btn-b">Layout <span class="layout-arrow"></span></button>
-            <div class="n-layout-panel" id="n-layout-panel-b">
-              <div class="lo-row on" data-lo="force"><span class="lo-radio"></span>Force<span class="lo-sub">Organic clustering</span></div>
-              <div class="lo-row" data-lo="radial"><span class="lo-radio"></span>Radial<span class="lo-sub">Rings out from matches</span></div>
-              <div class="lo-row" data-lo="tiered"><span class="lo-radio"></span>Tiered<span class="lo-sub">Aligned rows by role</span></div>
+            <div class="n-filter">
+              <button class="n-filter-btn" id="n-filter-btn-b">Filter <span class="filter-arrow"></span></button>
+              <div class="n-filter-panel" id="n-filter-panel-b"></div>
             </div>
-          </div>
-          <button class="n-search-icon-btn" id="n-search-icon-btn-b" title="Search nodes">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="11" cy="11" r="7" stroke="#122945" stroke-width="2" stroke-linecap="round"/>
-              <path d="M16.5 16.5L21 21" stroke="#122945" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </button>
-          <div class="n-search-box" id="n-search-box-b">
-            <input class="n-search" id="n-search-b" type="text" placeholder="Search nodes...">
-            <button class="n-search-clear" id="n-search-clear-b" title="Clear">x</button>
-            <button class="n-search-go" id="n-search-go-b">Go</button>
+            <div class="n-layout">
+              <button class="n-layout-btn" id="n-layout-btn-b">Layout <span class="layout-arrow"></span></button>
+              <div class="n-layout-panel" id="n-layout-panel-b">
+                <div class="lo-row" data-lo="force"><span class="lo-radio"></span>Force<span class="lo-sub">Organic
+                    clustering</span></div>
+                <div class="lo-row" data-lo="radial"><span class="lo-radio"></span>Radial<span class="lo-sub">Rings out
+                    from matches</span></div>
+                <div class="lo-row on" data-lo="tiered"><span class="lo-radio"></span>Tiered<span class="lo-sub">Aligned
+                    rows by role</span></div>
+              </div>
+            </div>
+            <button class="n-search-icon-btn" id="n-search-icon-btn-b" title="Search nodes">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="7" stroke="#122945" stroke-width="2" stroke-linecap="round" />
+                <path d="M16.5 16.5L21 21" stroke="#122945" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+            <div class="n-search-box" id="n-search-box-b">
+              <input class="n-search" id="n-search-b" type="text" placeholder="Search nodes...">
+              <button class="n-search-clear" id="n-search-clear-b" title="Clear">x</button>
+              <button class="n-search-go" id="n-search-go-b">Go</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <button class="n-reset" id="n-reset-b">
-        <svg class="ri" width="12" height="12" viewBox="0 0 24 24" fill="none">
-          <path d="M20 4V10H14" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M4 20V14H10" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
-        Reset
-      </button>
+        <button class="n-reset" id="n-reset-b">
+          <svg class="ri" width="12" height="12" viewBox="0 0 24 24" fill="none">
+            <path d="M20 4V10H14" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M4 20V14H10" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2.5"
+              stroke-linecap="round" />
+            <path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945"
+              stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+          Reset
+        </button>
 
-      <div class="n-help-panel" id="n-help-panel-b">
-        <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M17.1603 16.9887L21.0519 15.4659C21.4758 15.3001 21.4756 14.7003 21.0517 14.5346L11.6992 10.8799C11.2933 10.7213 10.8929 11.1217 11.0515 11.5276L14.7062 20.8801C14.8719 21.304 15.4717 21.3042 15.6375 20.8803L17.1603 16.9887Z" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Drag a node to move it</div>
-        <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M17.1603 16.9887L21.0519 15.4659C21.4758 15.3001 21.4756 14.7003 21.0517 14.5346L11.6992 10.8799C11.2933 10.7213 10.8929 11.1217 11.0515 11.5276L14.7062 20.8801C14.8719 21.304 15.4717 21.3042 15.6375 20.8803L17.1603 16.9887Z" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Drag background to pan</div>
-        <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="8" y="2" width="8" height="14" rx="4" stroke="#122945" stroke-width="2"/><line x1="12" y1="6" x2="12" y2="9" stroke="#122945" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="16" x2="12" y2="20" stroke="#122945" stroke-width="2" stroke-linecap="round"/></svg>Scroll to zoom in / out</div>
-        <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M20 4V10H14" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20V14H10" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2" stroke-linecap="round"/><path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945" stroke-width="2" stroke-linecap="round"/></svg>Reset restores layout</div>
+        <div class="n-help-panel" id="n-help-panel-b">
+          <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M17.1603 16.9887L21.0519 15.4659C21.4758 15.3001 21.4756 14.7003 21.0517 14.5346L11.6992 10.8799C11.2933 10.7213 10.8929 11.1217 11.0515 11.5276L14.7062 20.8801C14.8719 21.304 15.4717 21.3042 15.6375 20.8803L17.1603 16.9887Z"
+                stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>Drag a node to move it</div>
+          <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M17.1603 16.9887L21.0519 15.4659C21.4758 15.3001 21.4756 14.7003 21.0517 14.5346L11.6992 10.8799C11.2933 10.7213 10.8929 11.1217 11.0515 11.5276L14.7062 20.8801C14.8719 21.304 15.4717 21.3042 15.6375 20.8803L17.1603 16.9887Z"
+                stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>Drag background to pan</div>
+          <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <rect x="8" y="2" width="8" height="14" rx="4" stroke="#122945" stroke-width="2" />
+              <line x1="12" y1="6" x2="12" y2="9" stroke="#122945" stroke-width="2" stroke-linecap="round" />
+              <line x1="12" y1="16" x2="12" y2="20" stroke="#122945" stroke-width="2" stroke-linecap="round" />
+            </svg>Scroll to zoom in / out</div>
+          <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <path d="M20 4V10H14" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M4 20V14H10" stroke="#122945" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2"
+                stroke-linecap="round" />
+              <path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945"
+                stroke-width="2" stroke-linecap="round" />
+            </svg>Reset restores layout</div>
+        </div>
+        <button class="n-help-btn" id="n-help-btn-b">?</button>
       </div>
-      <button class="n-help-btn" id="n-help-btn-b">?</button>
     </div>
+
+    <div id="footnote">Arrived here from a gambling-tie badge? Use Reset or Search to clear the highlight and explore
+      freely.</div>
+
   </div>
 
-  <div id="footnote">Arrived here from a gambling-tie badge? Use Reset or Search to clear the highlight and explore freely.</div>
-
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="network.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script src="network.js"></script>
 </body>
+
 </html>

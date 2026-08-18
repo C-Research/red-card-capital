@@ -45,8 +45,11 @@ body::before {
 #brand-bar {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 16px;
+  justify-content: center;
+  gap: 28px;
+  margin-bottom: 26px;
+  padding-bottom: 22px;
+  border-bottom: 2px solid rgba(201, 150, 46, 0.35);
 }
 
 #brand-mark img {
@@ -63,8 +66,8 @@ body::before {
 #brand-name {
   font-family: 'Big Shoulders Display', 'Century Gothic', sans-serif;
   font-weight: 900;
-  font-size: 29px;
-  letter-spacing: 0.5px;
+  font-size: 56px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   line-height: 1;
   white-space: nowrap;
@@ -84,11 +87,11 @@ body::before {
 
 #brand-tag {
   font-family: 'IBM Plex Mono', 'Century Gothic', monospace;
-  font-size: 10.5px;
-  letter-spacing: 1.4px;
+  font-size: 14px;
+  letter-spacing: 2.2px;
   text-transform: uppercase;
   color: #5f6b7c;
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 /* -- Header ------------------------------------------------------------- */
@@ -807,6 +810,10 @@ body::before {
   opacity: 0.06;
 }
 
+.n-elabel.dimmed {
+  opacity: 0.06;
+}
+
 @keyframes nFlash {
   0% {
     opacity: 1;
@@ -845,12 +852,17 @@ body::before {
 }
 
 @media (max-width: 560px) {
+  #brand-bar {
+    gap: 16px;
+  }
+
   #brand-name {
-    font-size: 22px;
+    font-size: 30px;
+    white-space: normal;
   }
 
   #brand-mark img {
-    width: 42px;
-    height: 42px;
+    width: 64px;
+    height: 64px;
   }
 }

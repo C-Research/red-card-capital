@@ -68,7 +68,7 @@
     const tierY = { 0:0.09, 1:0.28, 2:0.48, 3:0.67, 4:0.88 };
     const linkData = linkDefs.map(l => ({ source:l.s, target:l.t, type:l.tp, label:l.label||null }));
 
-    const W = Math.max(wrap.getBoundingClientRect().width, wrap.clientWidth, wrap.offsetWidth, 400) || 800;
+    const W = cfg.width || Math.max(wrap.getBoundingClientRect().width, wrap.clientWidth, wrap.offsetWidth, 400) || 800;
     const H = 620;
     const svg = d3.select(el("network-svg")).attr("viewBox", "0 0 " + W + " " + H);
     const g = svg.append("g");
@@ -225,6 +225,7 @@
 
     const edgeLabelHalo = g.append("g").selectAll("text")
       .data(labelNodes).join("text")
+      .attr("class", "n-elabel")
       .attr("font-family", "'Century Gothic','Futura','Trebuchet MS',sans-serif")
       .attr("font-size", "8px").attr("font-weight", "bold")
       .attr("fill", "none").attr("stroke", "#ffffff").attr("stroke-width", 4)
@@ -234,6 +235,7 @@
 
     const edgeLabel = g.append("g").selectAll("text")
       .data(labelNodes).join("text")
+      .attr("class", "n-elabel")
       .attr("font-family", "'Century Gothic','Futura','Trebuchet MS',sans-serif")
       .attr("font-size", "8px").attr("font-weight", "bold")
       .attr("fill", "#122945")
@@ -326,6 +328,8 @@
           .style("stroke", l => (l.source.id === d.id || l.target.id === d.id) ? "#225b7b" : "#a0b9d0")
           .style("stroke-width", l => (l.source.id === d.id || l.target.id === d.id) ? "2.5px" : "1px")
           .style("opacity", l => (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.08);
+        [edgeLabelHalo, edgeLabel].forEach(sel => sel.style("opacity", ln =>
+          (ln.link.source.id === d.id || ln.link.target.id === d.id) ? 1 : 0.08));
 
         let html = "<div class='tt-name'>" + escHtml(d.full) + "</div>";
         if (d.sub) html += "<div class='tt-sub'>" + escHtml(d.sub) + "</div>";
@@ -346,6 +350,7 @@
           .attr("r", catCfg[d.cat].r);
         node.style("opacity", 1);
         link.style("stroke", null).style("stroke-width", null).style("opacity", null);
+        [edgeLabelHalo, edgeLabel].forEach(sel => sel.style("opacity", null));
         tooltip.style.opacity = 0;
       });
 
@@ -406,6 +411,7 @@
       const q = val.toLowerCase();
       node.classed("dimmed", d => d.full.toLowerCase().indexOf(q) === -1);
       link.classed("dimmed", true);
+      [edgeLabelHalo, edgeLabel].forEach(sel => sel.classed("dimmed", true));
       node.each(function(d) {
         if (d.full.toLowerCase().indexOf(q) !== -1) {
           const s = d3.select(this);
@@ -413,7 +419,10 @@
         }
       });
     }
-    function searchReset() { node.classed("dimmed", false); node.classed("flashing", false); link.classed("dimmed", false); }
+    function searchReset() {
+      node.classed("dimmed", false); node.classed("flashing", false); link.classed("dimmed", false);
+      [edgeLabelHalo, edgeLabel].forEach(sel => sel.classed("dimmed", false));
+    }
     function searchClear() { el("n-search").value = ""; el("n-search-clear").classList.remove("visible"); searchReset(); }
 
     // -- Layout selector -------------------------------------------------------
@@ -432,7 +441,7 @@
         applyLayout(row.dataset.lo);
       });
     });
-    applyLayout("force");
+    applyLayout("tiered");
 
     // -- Legend / Filter toggles ----------------------------------------------
     el("n-legend-btn").addEventListener("click", function() {
@@ -489,16 +498,28 @@
 
     // -- Cross-graph highlight API --------------------------------------------
     function flashNode(id) {
-      node.classed("dimmed", n => n.id !== id);
-      link.classed("dimmed", true);
-      node.each(function(n) {
-        if (n.id === id) {
-          const s = d3.select(this);
-          s.classed("flashing", false); void this.offsetWidth; s.classed("flashing", true);
-        }
+      const connectedIds = {};
+      connectedIds[id] = true;
+      linkData.forEach(l => {
+        if (l.source.id === id) connectedIds[l.target.id] = true;
+        if (l.target.id === id) connectedIds[l.source.id] = true;
       });
+      node.classed("dimmed", n => !connectedIds[n.id]);
+      node.classed("flashing", false);
+      node.select("circle.n-main").classed("hovered", n => n.id === id);
+      link.classed("dimmed", l => !(l.source.id === id || l.target.id === id));
+      link.classed("highlighted", l => l.source.id === id || l.target.id === id);
+      [edgeLabelHalo, edgeLabel].forEach(sel => sel.classed("dimmed", ln =>
+        !(ln.link.source.id === id || ln.link.target.id === id)));
     }
-    function clearHighlight() { node.classed("dimmed", false); node.classed("flashing", false); link.classed("dimmed", false); }
+    function clearHighlight() {
+      node.classed("dimmed", false);
+      node.classed("flashing", false);
+      node.select("circle.n-main").classed("hovered", false);
+      link.classed("dimmed", false);
+      link.classed("highlighted", false);
+      [edgeLabelHalo, edgeLabel].forEach(sel => sel.classed("dimmed", false));
+    }
 
     return { flashNode, clearHighlight };
   }
@@ -721,27 +742,34 @@
   // ==========================================================================
   let graphA = null, graphB = null;
 
-  function initTab1() {
+  // Both tabs measure off wrap-a's box — wrap-b is still display:none at load
+  // (its own rect would read 0), but both wraps share the same container width.
+  function containerWidth() {
     const wrap = document.getElementById("wrap-a");
-    const W = Math.max(wrap.getBoundingClientRect().width, 400) || 800;
+    return Math.max(wrap.getBoundingClientRect().width, 400) || 800;
+  }
+
+  function initTab1() {
+    const W = containerWidth();
     graphA = initNetworkGraph("a", {
       catCfg: tab1CatCfg,
       nodes: tab1Nodes,
       linkDefs: tab1LinkDefs,
       tierX: resolveTierX(tab1TierX, W),
+      width: W,
       collidePad: 30,
       onBadgeClick: function(d) { goToGamblingTie(d.gamblingTie); }
     });
   }
 
   function initTab2() {
-    const wrap = document.getElementById("wrap-b");
-    const W = Math.max(wrap.getBoundingClientRect().width, 400) || 800;
+    const W = containerWidth();
     graphB = initNetworkGraph("b", {
       catCfg: tab2CatCfg,
       nodes: tab2Nodes,
       linkDefs: tab2LinkDefs,
       tierX: resolveTierX(tab2TierX, W),
+      width: W,
       collidePad: 26
     });
   }
@@ -750,19 +778,11 @@
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === which));
     document.getElementById("tab1").classList.toggle("active", which === "tab1");
     document.getElementById("tab2").classList.toggle("active", which === "tab2");
-    if (which === "tab2" && !graphB) {
-      // allow layout to settle now that the panel is visible before measuring width
-      requestAnimationFrame(initTab2);
-    }
   }
 
   function goToGamblingTie(tie) {
     showTab("tab2");
-    const settle = graphB ? 50 : 350; // longer delay if graph B needs to init first
-    setTimeout(function() {
-      if (!graphB) { requestAnimationFrame(initTab2); setTimeout(() => graphB && graphB.flashNode(tie.targetId), 300); }
-      else graphB.flashNode(tie.targetId);
-    }, settle);
+    graphB.flashNode(tie.targetId);
   }
 
   document.querySelectorAll(".tab-btn").forEach(btn => {
@@ -770,5 +790,6 @@
   });
 
   initTab1();
+  initTab2();
 
 })();
