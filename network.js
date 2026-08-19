@@ -822,6 +822,7 @@
       chip.textContent = stepLabelFor(step);
       chip.addEventListener("click", () => {
         showTab(step.tab);
+        onSharedTimelineInput(sharedTimelineMax);
         const g = step.tab === "tab1" ? graphA : graphB;
         if (g) g.flashNode(step.id);
       });

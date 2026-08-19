@@ -337,273 +337,273 @@
         "t": "u01",
         "tp": "sup",
         "label": "FIFA LEADERSHIP ROLE",
-        "date": "2021-03-12"
+        "date": "2025-07-25"
       },
       {
         "s": "hub",
         "t": "u02",
         "tp": "sup",
         "label": "FIFA LEADERSHIP ROLE",
-        "date": "2021-07-15"
+        "date": "2025-08-07"
       },
       {
         "s": "hub",
         "t": "u03",
         "tp": "sup",
         "label": "FIFA LEADERSHIP ROLE",
-        "date": "2021-12-03"
+        "date": "2025-08-21"
       },
       {
         "s": "hub",
         "t": "u04",
         "tp": "sup",
         "label": "FIFA LEADERSHIP ROLE",
-        "date": "2022-02-19"
+        "date": "2025-09-03"
       },
       {
         "s": "hub",
         "t": "u05",
         "tp": "sup",
         "label": "FIFA LEADERSHIP ROLE",
-        "date": "2022-06-12"
+        "date": "2025-09-16"
       },
       {
         "s": "hub",
         "t": "u06",
         "tp": "sup",
         "label": "FIFA LEADERSHIP ROLE",
-        "date": "2022-10-09"
+        "date": "2025-09-29"
       },
       {
         "s": "hub",
         "t": "u07",
         "tp": "sup",
         "label": "FIFA LEADERSHIP ROLE",
-        "date": "2023-02-25"
+        "date": "2025-10-12"
       },
       {
         "s": "hub",
         "t": "u08",
         "tp": "sup",
         "label": "FIFA LEADERSHIP ROLE",
-        "date": "2023-07-31"
+        "date": "2025-10-25"
       },
       {
         "s": "hub",
         "t": "c01",
         "tp": "sup",
         "label": "SPONSORSHIP DEAL",
-        "date": "2022-05-16"
+        "date": "2025-11-07"
       },
       {
         "s": "hub",
         "t": "c02",
         "tp": "sup",
         "label": "BROADCAST RIGHTS DEAL",
-        "date": "2022-09-02"
+        "date": "2025-12-02"
       },
       {
         "s": "hub",
         "t": "c03",
         "tp": "sup",
         "label": "HOSPITALITY CONTRACT",
-        "date": "2023-03-13"
+        "date": "2025-12-27"
       },
       {
         "s": "hub",
         "t": "c04",
         "tp": "sup",
         "label": "CONSTRUCTION CONTRACT",
-        "date": "2023-06-22"
+        "date": "2026-01-21"
       },
       {
         "s": "hub",
         "t": "c05",
         "tp": "sup",
         "label": "TECH SERVICES CONTRACT",
-        "date": "2023-10-15"
+        "date": "2026-02-15"
       },
       {
         "s": "hub",
         "t": "c06",
         "tp": "sup",
         "label": "CONSULTING CONTRACT",
-        "date": "2024-03-01"
+        "date": "2026-03-12"
       },
       {
         "s": "u01",
         "t": "a01",
         "tp": "sh",
         "label": "BENEFICIAL OWNER",
-        "date": "2022-05-21"
+        "date": "2025-09-23"
       },
       {
         "s": "u01",
         "t": "a05",
         "tp": "sh",
         "label": "BENEFICIAL OWNER",
-        "date": "2022-11-15"
+        "date": "2025-11-12"
       },
       {
         "s": "u02",
         "t": "a02",
         "tp": "sh",
         "label": "BENEFICIAL OWNER",
-        "date": "2022-05-11"
+        "date": "2025-10-16"
       },
       {
         "s": "u02",
         "t": "a08",
         "tp": "sh",
         "label": "BENEFICIAL OWNER",
-        "date": "2023-09-22"
+        "date": "2026-01-04"
       },
       {
         "s": "u03",
         "t": "a02",
         "tp": "sh",
         "label": "BENEFICIAL OWNER",
-        "date": "2023-02-15"
+        "date": "2025-11-19"
       },
       {
         "s": "u03",
         "t": "a03",
         "tp": "sh",
         "label": "BENEFICIAL OWNER",
-        "date": "2024-04-09"
+        "date": "2026-02-07"
       },
       {
         "s": "u06",
         "t": "a04",
         "tp": "sh",
         "label": "BENEFICIAL OWNER",
-        "date": "2023-09-05"
+        "date": "2026-02-06"
       },
       {
         "s": "u06",
         "t": "a06",
         "tp": "sh",
         "label": "BENEFICIAL OWNER",
-        "date": "2024-03-31"
+        "date": "2026-04-07"
       },
       {
         "s": "u08",
         "t": "a07",
         "tp": "sh",
         "label": "BENEFICIAL OWNER",
-        "date": "2024-04-24"
+        "date": "2026-04-03"
       },
       {
         "s": "s01",
         "t": "c01",
         "tp": "sh",
         "label": "FOREIGN FUNDING CHANNEL",
-        "date": "2022-02-15"
+        "date": "2025-10-13"
       },
       {
         "s": "s02",
         "t": "c02",
         "tp": "sh",
         "label": "FOREIGN FUNDING CHANNEL",
-        "date": "2022-06-04"
+        "date": "2025-11-02"
       },
       {
         "s": "s03",
         "t": "c04",
         "tp": "sh",
         "label": "FOREIGN FUNDING CHANNEL",
-        "date": "2023-03-24"
+        "date": "2025-12-17"
       },
       {
         "s": "s04",
         "t": "c03",
         "tp": "sh",
         "label": "FOREIGN FUNDING CHANNEL",
-        "date": "2022-12-13"
+        "date": "2025-11-29"
       },
       {
         "s": "s05",
         "t": "c05",
         "tp": "sh",
         "label": "FOREIGN FUNDING CHANNEL",
-        "date": "2023-07-17"
+        "date": "2026-01-24"
       },
       {
         "s": "s06",
         "t": "a03",
         "tp": "sh",
         "label": "ALLEGED INFLATED PURCHASE",
-        "date": "2024-04-04"
+        "date": "2026-02-05"
       },
       {
         "s": "u03",
         "t": "c02",
         "tp": "sh",
         "label": "UNDISCLOSED CONSULTING FEE",
-        "date": "2022-10-21"
+        "date": "2025-12-12"
       },
       {
         "s": "u01",
         "t": "c04",
         "tp": "sh",
         "label": "AWARDED CONTRACT",
-        "date": "2023-06-22"
+        "date": "2026-01-21"
       },
       {
         "s": "c01",
         "t": "p01",
         "tp": "cl",
         "label": "ENDORSEMENT DEAL",
-        "date": "2023-04-01"
+        "date": "2026-04-16"
       },
       {
         "s": "c01",
         "t": "p02",
         "tp": "cl",
         "label": "ENDORSEMENT DEAL",
-        "date": "2023-08-15"
+        "date": "2026-05-01"
       },
       {
         "s": "c02",
         "t": "p03",
         "tp": "cl",
         "label": "ENDORSEMENT DEAL",
-        "date": "2023-02-20"
+        "date": "2026-04-06"
       },
       {
         "s": "c02",
         "t": "p04",
         "tp": "cl",
         "label": "ENDORSEMENT DEAL",
-        "date": "2023-12-06"
+        "date": "2026-05-16"
       },
       {
         "s": "c03",
         "t": "p05",
         "tp": "cl",
         "label": "ENDORSEMENT DEAL",
-        "date": "2024-05-18"
+        "date": "2026-06-05"
       },
       {
         "s": "c05",
         "t": "p06",
         "tp": "cl",
         "label": "ENDORSEMENT DEAL",
-        "date": "2024-07-30"
+        "date": "2026-06-20"
       },
       {
         "s": "c01",
         "t": "p07",
         "tp": "cl",
         "label": "ENDORSEMENT DEAL",
-        "date": "2024-10-12"
+        "date": "2026-05-26"
       },
       {
         "s": "c04",
         "t": "p08",
         "tp": "cl",
         "label": "ENDORSEMENT DEAL",
-        "date": "2025-02-07"
+        "date": "2026-07-05"
       }
     ]
   },
@@ -957,14 +957,14 @@
         "t": "m01",
         "tp": "sup",
         "label": "MATCH OFFICIAL",
-        "date": "2026-07-07"
+        "date": "2025-10-19"
       },
       {
         "s": "r01",
         "t": "m02",
         "tp": "sup",
         "label": "MATCH OFFICIAL",
-        "date": "2026-07-11"
+        "date": "2026-01-18"
       },
       {
         "s": "r01",
@@ -978,56 +978,56 @@
         "t": "m03",
         "tp": "sup",
         "label": "MATCH OFFICIAL",
-        "date": "2026-07-03"
+        "date": "2025-07-20"
       },
       {
         "s": "r03",
         "t": "m04",
         "tp": "sup",
         "label": "MATCH OFFICIAL",
-        "date": "2026-07-07"
+        "date": "2025-10-19"
       },
       {
         "s": "r03",
         "t": "m06",
         "tp": "sup",
         "label": "MATCH OFFICIAL",
-        "date": "2026-07-15"
+        "date": "2026-04-19"
       },
       {
         "s": "r04",
         "t": "m08",
         "tp": "sup",
         "label": "MATCH OFFICIAL",
-        "date": "2026-07-11"
+        "date": "2026-01-18"
       },
       {
         "s": "r05",
         "t": "m10",
         "tp": "sup",
         "label": "MATCH OFFICIAL",
-        "date": "2026-07-07"
+        "date": "2025-10-19"
       },
       {
         "s": "r06",
         "t": "m05",
         "tp": "sup",
         "label": "MATCH OFFICIAL",
-        "date": "2026-07-03"
+        "date": "2025-07-20"
       },
       {
         "s": "r07",
         "t": "m09",
         "tp": "sup",
         "label": "MATCH OFFICIAL",
-        "date": "2026-07-15"
+        "date": "2026-04-19"
       },
       {
         "s": "r08",
         "t": "m02",
         "tp": "sup",
         "label": "VAR OFFICIAL",
-        "date": "2026-07-11"
+        "date": "2026-01-18"
       },
       {
         "s": "r08",
@@ -1041,14 +1041,14 @@
         "t": "m01",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-07"
+        "date": "2025-10-19"
       },
       {
         "s": "pl01",
         "t": "m02",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-11"
+        "date": "2026-01-18"
       },
       {
         "s": "pl01",
@@ -1062,63 +1062,63 @@
         "t": "m01",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-07"
+        "date": "2025-10-19"
       },
       {
         "s": "pl02",
         "t": "m06",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-15"
+        "date": "2026-04-19"
       },
       {
         "s": "pl03",
         "t": "m03",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-03"
+        "date": "2025-07-20"
       },
       {
         "s": "pl03",
         "t": "m08",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-11"
+        "date": "2026-01-18"
       },
       {
         "s": "pl04",
         "t": "m04",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-07"
+        "date": "2025-10-19"
       },
       {
         "s": "pl04",
         "t": "m09",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-15"
+        "date": "2026-04-19"
       },
       {
         "s": "pl05",
         "t": "m05",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-03"
+        "date": "2025-07-20"
       },
       {
         "s": "pl05",
         "t": "m10",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-07"
+        "date": "2025-10-19"
       },
       {
         "s": "pl06",
         "t": "m02",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-11"
+        "date": "2026-01-18"
       },
       {
         "s": "pl06",
@@ -1132,35 +1132,35 @@
         "t": "m03",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-03"
+        "date": "2025-07-20"
       },
       {
         "s": "pl07",
         "t": "m06",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-15"
+        "date": "2026-04-19"
       },
       {
         "s": "pl08",
         "t": "m08",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-11"
+        "date": "2026-01-18"
       },
       {
         "s": "pl08",
         "t": "m09",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-15"
+        "date": "2026-04-19"
       },
       {
         "s": "pl08",
         "t": "m10",
         "tp": "cl",
         "label": "MATCH APPEARANCE",
-        "date": "2026-07-07"
+        "date": "2025-10-19"
       },
       {
         "s": "bm_ridgeline",
@@ -1168,7 +1168,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 18000,
-        "date": "2026-06-27"
+        "date": "2025-07-14"
       },
       {
         "s": "bm_ridgeline",
@@ -1176,7 +1176,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 24500,
-        "date": "2026-06-29"
+        "date": "2025-07-16"
       },
       {
         "s": "bm_ridgeline",
@@ -1184,7 +1184,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 31000,
-        "date": "2026-07-04"
+        "date": "2026-01-11"
       },
       {
         "s": "bm_ridgeline",
@@ -1192,7 +1192,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 12000,
-        "date": "2026-07-10"
+        "date": "2026-04-14"
       },
       {
         "s": "bm_ridgeline",
@@ -1200,7 +1200,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 27500,
-        "date": "2026-07-04"
+        "date": "2025-10-16"
       },
       {
         "s": "bm02",
@@ -1208,7 +1208,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 9500,
-        "date": "2026-06-29"
+        "date": "2025-10-11"
       },
       {
         "s": "bm02",
@@ -1216,7 +1216,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 15000,
-        "date": "2026-06-28"
+        "date": "2025-07-15"
       },
       {
         "s": "bm02",
@@ -1224,7 +1224,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 21000,
-        "date": "2026-07-09"
+        "date": "2026-04-13"
       },
       {
         "s": "bm03",
@@ -1232,7 +1232,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 33000,
-        "date": "2026-07-03"
+        "date": "2025-10-15"
       },
       {
         "s": "bm03",
@@ -1240,7 +1240,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 19500,
-        "date": "2026-07-08"
+        "date": "2026-01-15"
       },
       {
         "s": "bm03",
@@ -1248,7 +1248,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 26000,
-        "date": "2026-06-30"
+        "date": "2025-10-12"
       },
       {
         "s": "bm04",
@@ -1256,7 +1256,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 14000,
-        "date": "2026-06-27"
+        "date": "2025-07-14"
       },
       {
         "s": "bm04",
@@ -1264,7 +1264,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 22500,
-        "date": "2026-07-11"
+        "date": "2026-04-15"
       },
       {
         "s": "bm05",
@@ -1272,7 +1272,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 17500,
-        "date": "2026-07-06"
+        "date": "2026-01-13"
       },
       {
         "s": "bm05",
@@ -1288,7 +1288,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 11000,
-        "date": "2026-07-12"
+        "date": "2026-04-16"
       },
       {
         "s": "bm06",
@@ -1296,7 +1296,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 23000,
-        "date": "2026-07-01"
+        "date": "2025-10-13"
       },
       {
         "s": "bm_vantage",
@@ -1304,7 +1304,7 @@
         "tp": "sh",
         "label": "ANOMALOUS ODDS SHIFT",
         "amount": 210000,
-        "date": "2026-07-07"
+        "date": "2025-10-19"
       },
       {
         "s": "bm_vantage",
@@ -1312,7 +1312,7 @@
         "tp": "sh",
         "label": "ANOMALOUS ODDS SHIFT",
         "amount": 340000,
-        "date": "2026-07-11"
+        "date": "2026-01-18"
       },
       {
         "s": "bm_vantage",
@@ -1328,7 +1328,7 @@
         "tp": "sh",
         "label": "ANOMALOUS ODDS SHIFT",
         "amount": 190000,
-        "date": "2026-07-07"
+        "date": "2025-10-19"
       },
       {
         "s": "bm09",
@@ -1336,7 +1336,7 @@
         "tp": "sh",
         "label": "ANOMALOUS ODDS SHIFT",
         "amount": 260000,
-        "date": "2026-07-15"
+        "date": "2026-04-19"
       },
       {
         "s": "bm10",
@@ -1344,7 +1344,7 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 41000,
-        "date": "2026-07-07"
+        "date": "2026-01-14"
       },
       {
         "s": "bm11",
@@ -1360,70 +1360,70 @@
         "tp": "sup",
         "label": "BOOKMAKER MARKET",
         "amount": 45000,
-        "date": "2026-07-04"
+        "date": "2025-10-16"
       },
       {
         "s": "syn_solvana",
         "t": "bm_vantage",
         "tp": "sh",
         "label": "SUSPECTED COORDINATION",
-        "date": "2026-07-06"
+        "date": "2025-10-18"
       },
       {
         "s": "syn_solvana",
         "t": "m02",
         "tp": "sh",
         "label": "SUSPECTED FIX",
-        "date": "2026-07-10"
+        "date": "2026-01-17"
       },
       {
         "s": "syn_solvana",
         "t": "m04",
         "tp": "sh",
         "label": "SUSPECTED FIX",
-        "date": "2026-07-06"
+        "date": "2025-10-18"
       },
       {
         "s": "syn02",
         "t": "bm09",
         "tp": "sh",
         "label": "SUSPECTED COORDINATION",
-        "date": "2026-07-14"
+        "date": "2026-04-18"
       },
       {
         "s": "syn03",
         "t": "bm08",
         "tp": "sh",
         "label": "SUSPECTED COORDINATION",
-        "date": "2026-07-06"
+        "date": "2025-10-18"
       },
       {
         "s": "syn04",
         "t": "m06",
         "tp": "sh",
         "label": "SUSPECTED FIX",
-        "date": "2026-07-14"
+        "date": "2026-04-18"
       },
       {
         "s": "syn_solvana",
         "t": "r01",
         "tp": "sh",
         "label": "SUSPECTED PAYMENT",
-        "date": "2026-07-06"
+        "date": "2025-10-18"
       },
       {
         "s": "syn_solvana",
         "t": "r08",
         "tp": "sh",
         "label": "SUSPECTED PAYMENT",
-        "date": "2026-07-10"
+        "date": "2026-01-17"
       },
       {
         "s": "syn04",
         "t": "r03",
         "tp": "sh",
         "label": "SUSPECTED PAYMENT",
-        "date": "2026-07-06"
+        "date": "2025-10-18"
       }
     ]
   }
