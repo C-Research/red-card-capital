@@ -179,33 +179,30 @@ body::before {
 
 .n-link {
   stroke: #122945;
-  stroke-width: 1.2px;
   stroke-linecap: round;
-  transition: stroke 0.2s, stroke-width 0.2s;
+  transition: stroke 0.2s, stroke-width 0.2s, filter 0.2s;
   fill: none;
 }
 
 .n-link.highlighted {
   stroke: #122945;
-  stroke-width: 2px;
 }
 
 .n-link.sh-link {
   stroke: #122945;
-  stroke-width: 1.6px;
 }
 
 .n-link.sh-link.highlighted {
   stroke: #122945;
-  stroke-width: 2.6px;
+}
+
+.n-link.n-link-anomalous {
+  stroke: #e50b0b !important;
+  filter: drop-shadow(0 0 3px rgba(229, 11, 11, 0.55));
 }
 
 .n-node {
-  cursor: grab;
-}
-
-.n-node:active {
-  cursor: grabbing;
+  cursor: default;
 }
 
 .n-node circle.n-main {
@@ -261,9 +258,16 @@ body::before {
   margin-bottom: 2px;
 }
 
+.n-tooltip .tt-value {
+  font-size: 10px;
+  color: #225b7b;
+  font-weight: bold;
+  margin-top: 2px;
+}
+
 .n-tooltip .tt-flag {
   font-size: 10px;
-  color: #e50b0b;
+  color: #96730a;
   font-weight: bold;
   margin-top: 2px;
 }
@@ -336,11 +340,14 @@ body::before {
   flex-shrink: 0;
 }
 
-.lg-ring {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  border: 2.5px solid #e50b0b;
+.lg-card-yellow {
+  width: 9px;
+  height: 13px;
+  border-radius: 2px;
+  background: #f0b400;
+  border: 1.5px solid #ffffff;
+  outline: 1px solid #f0b400;
+  transform: rotate(-14deg);
   flex-shrink: 0;
 }
 
@@ -352,6 +359,31 @@ body::before {
   border: 1.5px solid #ffffff;
   outline: 1px solid #e50b0b;
   transform: rotate(-14deg);
+  flex-shrink: 0;
+}
+
+.lg-size {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.lg-size::before, .lg-size::after {
+  content: "";
+  display: block;
+  border-radius: 50%;
+  background: #3bbc97;
+}
+
+.lg-size::before { width: 6px; height: 6px; }
+.lg-size::after { width: 14px; height: 14px; }
+
+.lg-weight {
+  width: 22px;
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #122945 0%, #122945 40%, #e50b0b 100%);
   flex-shrink: 0;
 }
 
@@ -788,7 +820,8 @@ body::before {
   opacity: 0.12;
 }
 
-.n-node.dimmed .n-badge {
+.n-node.dimmed .n-badge,
+.n-node.dimmed .n-flag-badge {
   opacity: 0.12;
 }
 

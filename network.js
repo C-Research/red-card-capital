@@ -54,6 +54,12 @@
     return { hw: text.length * 2.6 + 5, hh: 7 };
   }
 
+  function formatUSD(v) {
+    if (v >= 1000000) return "$" + (v / 1000000).toFixed(v >= 10000000 ? 0 : 1) + "M";
+    if (v >= 1000) return "$" + Math.round(v / 1000) + "K";
+    return "$" + v;
+  }
+
   // ==========================================================================
   // Factory — builds one full network graph instance inside a suffixed set
   // of DOM elements ("a" or "b"). Returns {flashNode, clearHighlight}.
@@ -66,27 +72,49 @@
     const linkDefs = cfg.linkDefs;
     const tierX = cfg.tierX;
     const tierY = { 0:0.09, 1:0.28, 2:0.48, 3:0.67, 4:0.88 };
-    const linkData = linkDefs.map(l => ({ source:l.s, target:l.t, type:l.tp, label:l.label||null }));
+    const linkData = linkDefs.map(l => {
+      const amount = l.amount != null ? l.amount : null;
+      const label = l.label || null;
+      return {
+        source: l.s, target: l.t, type: l.tp, label: label, amount: amount,
+        displayLabel: label ? (label + (amount != null ? " · " + formatUSD(amount) : "")) : null
+      };
+    });
+
+    // -- Value-driven sizing: asset $ value -> node radius (log scale) -------
+    const valueExtent = d3.extent(nodes.filter(n => n.value != null), n => n.value);
+    const valueRadiusScale = valueExtent[0] != null
+      ? d3.scaleLog().domain(valueExtent).range([11, 27]).clamp(true)
+      : null;
+    function nodeR(d) { return (d.value != null && valueRadiusScale) ? valueRadiusScale(d.value) : catCfg[d.cat].r; }
+
+    // -- Value-driven sizing: bet $ amount -> edge thickness + anomaly glow --
+    const amounts = linkData.filter(l => l.amount != null).map(l => l.amount).sort((a, b) => a - b);
+    const amountWidthScale = amounts.length
+      ? d3.scaleSqrt().domain([amounts[0], amounts[amounts.length - 1]]).range([1.3, 6]).clamp(true)
+      : null;
+    const largeBetThreshold = amounts.length ? amounts[Math.floor(amounts.length * 0.8)] : Infinity;
+    function baseLinkWidth(l) { return l.amount != null && amountWidthScale ? amountWidthScale(l.amount) : (l.type === "sh" ? 1.6 : 1.2); }
+    function isAnomalousLink(l) { return l.amount != null && l.type === "sh" && l.amount >= largeBetThreshold; }
 
     const W = cfg.width || Math.max(wrap.getBoundingClientRect().width, wrap.clientWidth, wrap.offsetWidth, 400) || 800;
     const H = 620;
     const svg = d3.select(el("network-svg")).attr("viewBox", "0 0 " + W + " " + H);
     const g = svg.append("g");
 
-    svg.call(
-      d3.zoom()
-        .scaleExtent([0.18, 4])
-        .filter(function(e) {
-          if (e.type === "wheel") {
-            const r = wrap.getBoundingClientRect();
-            const inX = e.clientX >= r.left ? e.clientX <= r.right : false;
-            const inY = e.clientY >= r.top ? e.clientY <= r.bottom : false;
-            return inX ? inY : false;
-          }
-          return !e.ctrlKey ? !e.button : false;
-        })
-        .on("zoom", function(e) { g.attr("transform", e.transform); })
-    );
+    const zoomBehavior = d3.zoom()
+      .scaleExtent([0.18, 4])
+      .filter(function(e) {
+        if (e.type === "wheel") {
+          const r = wrap.getBoundingClientRect();
+          const inX = e.clientX >= r.left ? e.clientX <= r.right : false;
+          const inY = e.clientY >= r.top ? e.clientY <= r.bottom : false;
+          return inX ? inY : false;
+        }
+        return !e.ctrlKey ? !e.button : false;
+      })
+      .on("zoom", function(e) { g.attr("transform", e.transform); });
+    svg.call(zoomBehavior);
 
     // -- BFS distance from the hub category — powers the radial layout -------
     const hubDist = (function () {
@@ -123,7 +151,7 @@
     })();
 
     const sim = d3.forceSimulation(nodes)
-      .force("collide", d3.forceCollide(d => catCfg[d.cat].r + cfg.collidePad));
+      .force("collide", d3.forceCollide(d => nodeR(d) + cfg.collidePad));
 
     let layoutMode = "force";
     function applyLayout(mode) {
@@ -163,11 +191,12 @@
     }
 
     const link = g.append("g").selectAll("line").data(linkData).join("line")
-      .attr("class", d => "n-link" + (d.type === "sh" ? " sh-link" : ""));
+      .attr("class", d => "n-link" + (d.type === "sh" ? " sh-link" : "") + (isAnomalousLink(d) ? " n-link-anomalous" : ""))
+      .attr("stroke-width", d => baseLinkWidth(d));
 
     // -- Edge labels — decluttered each tick so nearby labels push apart -----
-    const labelNodes = linkData.filter(l => l.label).map(l => {
-      const ext = labelHalfExtents(l.label);
+    const labelNodes = linkData.filter(l => l.displayLabel).map(l => {
+      const ext = labelHalfExtents(l.displayLabel);
       return { link: l, lx: null, ly: null, tx: 0, ty: 0, hw: ext.hw, hh: ext.hh };
     });
 
@@ -231,7 +260,7 @@
       .attr("fill", "none").attr("stroke", "#ffffff").attr("stroke-width", 4)
       .attr("stroke-linejoin", "round")
       .attr("text-anchor", "middle").attr("dominant-baseline", "middle")
-      .attr("pointer-events", "none").text(d => d.link.label);
+      .attr("pointer-events", "none").text(d => d.link.displayLabel);
 
     const edgeLabel = g.append("g").selectAll("text")
       .data(labelNodes).join("text")
@@ -240,32 +269,27 @@
       .attr("font-size", "8px").attr("font-weight", "bold")
       .attr("fill", "#122945")
       .attr("text-anchor", "middle").attr("dominant-baseline", "middle")
-      .attr("pointer-events", "none").text(d => d.link.label);
+      .attr("pointer-events", "none").text(d => d.link.displayLabel);
 
     const tooltip = el("n-tooltip");
 
     const node = g.append("g").selectAll("g").data(nodes).join("g")
-      .attr("class", "n-node")
-      .call(d3.drag()
-        .on("start", (e,d) => { if (!e.active) sim.alphaTarget(0.05).restart(); d.fx = d.x; d.fy = d.y; })
-        .on("drag",  (e,d) => { d.fx = e.x; d.fy = e.y; })
-        .on("end",   (e,d) => { if (!e.active) sim.alphaTarget(0); })
-      );
+      .attr("class", "n-node");
 
     node.append("circle")
       .attr("class", "n-main")
-      .attr("r", d => catCfg[d.cat].r)
+      .attr("r", d => nodeR(d))
       .attr("fill", d => catCfg[d.cat].fill)
-      .attr("stroke", d => d.flagged ? "#e50b0b" : catCfg[d.cat].stroke)
-      .attr("stroke-width", d => d.flagged ? 3 : catCfg[d.cat].sw);
+      .attr("stroke", d => d.gamblingTie ? "#e50b0b" : (d.flagged ? "#f0b400" : catCfg[d.cat].stroke))
+      .attr("stroke-width", d => (d.flagged || d.gamblingTie) ? 3 : catCfg[d.cat].sw);
 
     node.each(function(d) {
-      appendIcon(d3.select(this), catCfg[d.cat].kind, catCfg[d.cat].r, catCfg[d.cat].icon);
+      appendIcon(d3.select(this), catCfg[d.cat].kind, nodeR(d), catCfg[d.cat].icon);
     });
 
-    // Gambling-tie badge (only for nodes with a gamblingTie field)
+    // Gambling-tie badge (only for nodes with a gamblingTie field) — clickable red card, top-right
     node.filter(d => !!d.gamblingTie).each(function(d) {
-      const r = catCfg[d.cat].r;
+      const r = nodeR(d);
       const bx = r*0.68, by = -r*0.68;
       const badge = d3.select(this).append("g")
         .attr("class", "n-badge")
@@ -278,8 +302,20 @@
         .attr("rx", 2.2).attr("fill", "#e50b0b").attr("stroke", "#ffffff").attr("stroke-width", 1.3);
     });
 
+    // Flagged badge (only for nodes with flagged=true) — informational yellow card, top-left
+    node.filter(d => !!d.flagged).each(function(d) {
+      const r = nodeR(d);
+      const bx = -r*0.68, by = -r*0.68;
+      const badge = d3.select(this).append("g")
+        .attr("class", "n-flag-badge")
+        .attr("transform", "translate(" + bx + "," + by + ")");
+      badge.append("g").attr("transform", "rotate(-14)")
+        .append("rect").attr("x", -6).attr("y", -8.5).attr("width", 12).attr("height", 17)
+        .attr("rx", 2.2).attr("fill", "#f0b400").attr("stroke", "#ffffff").attr("stroke-width", 1.3);
+    });
+
     node.each(function(d) {
-      const r = catCfg[d.cat].r;
+      const r = nodeR(d);
       const fs = catCfg[d.cat].tier <= 1 ? 9 : 8;
       const maxCh = catCfg[d.cat].tier === 2 ? 22 : catCfg[d.cat].tier === 1 ? 20 : 18;
       const yBase = r + 12;
@@ -315,7 +351,7 @@
     node
       .on("mouseenter", function(e,d) {
         d3.select(this).select("circle.n-main").classed("hovered", true)
-          .attr("r", catCfg[d.cat].r+4);
+          .attr("r", nodeR(d)+4);
 
         const connectedIds = {};
         connectedIds[d.id] = true;
@@ -325,8 +361,8 @@
         });
         node.style("opacity", n => connectedIds[n.id] ? 1 : 0.12);
         link
-          .style("stroke", l => (l.source.id === d.id || l.target.id === d.id) ? "#225b7b" : "#a0b9d0")
-          .style("stroke-width", l => (l.source.id === d.id || l.target.id === d.id) ? "2.5px" : "1px")
+          .style("stroke", l => isAnomalousLink(l) ? null : ((l.source.id === d.id || l.target.id === d.id) ? "#225b7b" : "#a0b9d0"))
+          .style("stroke-width", l => (l.source.id === d.id || l.target.id === d.id) ? Math.max(baseLinkWidth(l), 2.5) + "px" : null)
           .style("opacity", l => (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.08);
         [edgeLabelHalo, edgeLabel].forEach(sel => sel
           .filter(ln => ln.link.source.id === d.id || ln.link.target.id === d.id)
@@ -335,6 +371,7 @@
         let html = "<div class='tt-name'>" + escHtml(d.full) + "</div>";
         if (d.sub) html += "<div class='tt-sub'>" + escHtml(d.sub) + "</div>";
         html += "<div class='tt-cat' style='color:" + catCfg[d.cat].fill + "'>" + catCfg[d.cat].label + "</div>";
+        if (d.value != null) html += "<div class='tt-value'>Estimated value: " + formatUSD(d.value) + "</div>";
         if (d.flagged) html += "<div class='tt-flag'>&#9888; " + escHtml(d.flagNote || "Flagged") + "</div>";
         if (d.gamblingTie) html += "<div class='tt-tie'>&#9670; Linked gambling holding — click the red badge to explore</div>";
         tooltip.innerHTML = html;
@@ -348,7 +385,7 @@
       })
       .on("mouseleave", function(e,d) {
         d3.select(this).select("circle.n-main").classed("hovered", false)
-          .attr("r", catCfg[d.cat].r);
+          .attr("r", nodeR(d));
         node.style("opacity", null);
         link.style("stroke", null).style("stroke-width", null).style("opacity", null);
         [edgeLabelHalo, edgeLabel].forEach(sel => sel
@@ -381,6 +418,7 @@
       sim.stop();
       nodes.forEach(d => { d.fx = null; d.fy = null; });
       const t = d3.transition().duration(600).ease(d3.easeCubicInOut);
+      svg.transition(t).call(zoomBehavior.transform, d3.zoomIdentity);
       node.transition(t).attr("transform", d => "translate(" + saved[d.id].x + "," + saved[d.id].y + ")");
       link.transition(t)
         .attr("x1", d=>saved[d.source.id].x).attr("y1", d=>saved[d.source.id].y)
@@ -474,7 +512,7 @@
       legendBar.appendChild(div);
       const item = document.createElement("div");
       item.className = "lg-item lg-note";
-      item.innerHTML = "<span class='lg-ring'></span><span class='lg-label'>Flagged for further review</span>";
+      item.innerHTML = "<span class='lg-card-yellow'></span><span class='lg-label'>Flagged for further review</span>";
       item.addEventListener("mouseenter", () => highlightByPredicate(n => !!n.flagged));
       item.addEventListener("mouseleave", clearPredicateHighlight);
       legendBar.appendChild(item);
@@ -485,6 +523,18 @@
       item.innerHTML = "<span class='lg-card'></span><span class='lg-label'>Linked gambling holding — click to jump</span>";
       item.addEventListener("mouseenter", () => highlightByPredicate(n => !!n.gamblingTie));
       item.addEventListener("mouseleave", clearPredicateHighlight);
+      legendBar.appendChild(item);
+    }
+    if (nodes.some(n => n.value != null)) {
+      const item = document.createElement("div");
+      item.className = "lg-item lg-note";
+      item.innerHTML = "<span class='lg-size'></span><span class='lg-label'>Node size = estimated asset value</span>";
+      legendBar.appendChild(item);
+    }
+    if (linkData.some(l => l.amount != null)) {
+      const item = document.createElement("div");
+      item.className = "lg-item lg-note";
+      item.innerHTML = "<span class='lg-weight'></span><span class='lg-label'>Line thickness = bet size · red glow = large &amp; suspicious</span>";
       legendBar.appendChild(item);
     }
 
@@ -548,7 +598,8 @@
       node.classed("flashing", false);
       node.select("circle.n-main").classed("hovered", n => n.id === id);
       link.classed("dimmed", l => !(l.source.id === id || l.target.id === id));
-      link.classed("highlighted", l => l.source.id === id || l.target.id === id);
+      link.classed("highlighted", l => l.source.id === id || l.target.id === id)
+        .style("stroke-width", l => (l.source.id === id || l.target.id === id) ? Math.max(baseLinkWidth(l), 2.5) + "px" : null);
       [edgeLabelHalo, edgeLabel].forEach(sel => sel.classed("shown", ln =>
         ln.link.source.id === id || ln.link.target.id === id));
     }
@@ -557,7 +608,8 @@
       node.classed("flashing", false);
       node.select("circle.n-main").classed("hovered", false);
       link.classed("dimmed", false);
-      link.classed("highlighted", false);
+      link.classed("highlighted", false)
+        .style("stroke-width", null);
       [edgeLabelHalo, edgeLabel].forEach(sel => sel.classed("shown", false));
     }
 
