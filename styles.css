@@ -359,32 +359,32 @@ body::before {
 }
 
 .n-detail-flyout .tt-sub {
-  font-size: 10px;
+  font-size: 12.5px;
   color: #5f6b7c;
   margin-bottom: 3px;
 }
 
 .n-detail-flyout .tt-cat {
-  font-size: 10px;
+  font-size: 12.5px;
   margin-bottom: 2px;
 }
 
 .n-detail-flyout .tt-value {
-  font-size: 10px;
+  font-size: 12.5px;
   color: #225b7b;
   font-weight: bold;
   margin-top: 2px;
 }
 
 .n-detail-flyout .tt-flag {
-  font-size: 10px;
+  font-size: 12.5px;
   color: #96730a;
   font-weight: bold;
   margin-top: 2px;
 }
 
 .n-detail-flyout .tt-tie {
-  font-size: 10px;
+  font-size: 12.5px;
   color: #e50b0b;
   margin-top: 2px;
 }
