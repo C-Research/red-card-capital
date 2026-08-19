@@ -6,6 +6,8 @@
   --rc-gold-500: #c9962e;
   --rc-red-500: #ef3b3b;
   --rc-red-600: #d9151c;
+  --rc-red-45: #e50b0b;
+  --rc-green: #3bbc97;
 }
 
 * {
@@ -74,7 +76,7 @@ body::before {
 }
 
 #brand-name .w-red {
-  color: var(--rc-red-600);
+  color: var(--rc-red-45);
 }
 
 #brand-name .w-card {
@@ -82,7 +84,7 @@ body::before {
 }
 
 #brand-name .w-cap {
-  color: var(--rc-gold-500);
+  color: var(--rc-green);
 }
 
 #brand-tag {
