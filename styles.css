@@ -303,93 +303,79 @@ body::before {
   stroke: #ffffff;
 }
 
-.n-legend {
-  font-size: 10px;
-  color: #122945;
+.n-legend-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 18px;
+  padding: 13px 16px;
+  background: linear-gradient(180deg, #f6f8fa, #eef2f6);
+  border-bottom: 1px solid #d7dee6;
+  font-size: 12.5px;
 }
 
-.n-legend-btn {
-  background: #ffffff;
-  border: 1px solid #122945;
+.lg-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 8px;
   border-radius: 6px;
-  padding: 0 10px;
   cursor: pointer;
-  font-size: 10px;
-  font-weight: bold;
-  font-family: 'Century Gothic', 'Futura', 'Trebuchet MS', sans-serif;
-  color: #122945;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  height: 27px;
-  box-sizing: border-box;
-  transition: background 0.2s, color 0.2s;
+  user-select: none;
+  transition: background 0.15s;
 }
 
-.n-legend-btn:hover {
-  background: #122945;
-  color: #ffffff;
+.lg-item:hover {
+  background: rgba(18, 41, 69, 0.08);
 }
 
-.n-legend-btn:hover .leg-arrow {
-  border-top-color: #ffffff;
-}
-
-.leg-arrow {
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 5px solid #122945;
-  transition: transform 0.2s, border-top-color 0.2s;
-  flex-shrink: 0;
-}
-
-.leg-arrow.open {
-  transform: rotate(180deg);
-}
-
-.n-legend-panel {
-  display: none;
-  margin-top: 4px;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  border: 1px solid #122945;
-  border-radius: 6px;
-  padding: 9px 13px;
-  line-height: 2.05;
-  white-space: nowrap;
-}
-
-.n-legend-panel.visible {
-  display: block;
-}
-
-.leg-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-}
-
-.leg-dot {
-  width: 11px;
-  height: 11px;
+.lg-dot {
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.leg-line {
-  width: 22px;
-  height: 2px;
+.lg-ring {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2.5px solid #e50b0b;
   flex-shrink: 0;
 }
 
-.leg-sub {
-  font-size: 9px;
+.lg-card {
+  width: 9px;
+  height: 13px;
+  border-radius: 2px;
+  background: #e50b0b;
+  border: 1.5px solid #ffffff;
+  outline: 1px solid #e50b0b;
+  transform: rotate(-14deg);
+  flex-shrink: 0;
+}
+
+.lg-label {
+  font-weight: bold;
+  color: #122945;
+  white-space: nowrap;
+}
+
+.lg-note .lg-label {
+  font-weight: normal;
   color: #5f6b7c;
-  padding-left: 19px;
-  line-height: 1.6;
+  font-size: 11.5px;
+}
+
+.lg-divider {
+  width: 1px;
+  height: 18px;
+  background: #d7dee6;
+  flex-shrink: 0;
+}
+
+.n-canvas {
+  position: relative;
 }
 
 .n-filter {

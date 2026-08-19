@@ -444,12 +444,51 @@
     });
     applyLayout("tiered");
 
-    // -- Legend / Filter toggles ----------------------------------------------
-    el("n-legend-btn").addEventListener("click", function() {
-      el("n-legend-panel").classList.toggle("visible");
-      this.querySelector(".leg-arrow").classList.toggle("open");
+    // -- Legend bar — always-visible, hover a section to spotlight it --------
+    function highlightByPredicate(pred) {
+      node.classed("dimmed", n => !pred(n));
+      node.select("circle.n-main").classed("hovered", n => pred(n));
+      link.classed("dimmed", true);
+    }
+    function clearPredicateHighlight() {
+      node.classed("dimmed", false);
+      node.select("circle.n-main").classed("hovered", false);
+      link.classed("dimmed", false);
+    }
+
+    const legendBar = el("n-legend-bar");
+    Object.keys(catCfg).forEach(catKey => {
+      const c = catCfg[catKey];
+      const item = document.createElement("div");
+      item.className = "lg-item";
+      item.innerHTML =
+        "<span class='lg-dot' style='background:" + c.fill + (catKey === "statesec" ? ";border:2px solid #225b7b" : "") + "'></span>" +
+        "<span class='lg-label'>" + c.label + "</span>";
+      item.addEventListener("mouseenter", () => highlightByPredicate(n => n.cat === catKey));
+      item.addEventListener("mouseleave", clearPredicateHighlight);
+      legendBar.appendChild(item);
     });
 
+    if (nodes.some(n => n.flagged)) {
+      const div = document.createElement("div"); div.className = "lg-divider";
+      legendBar.appendChild(div);
+      const item = document.createElement("div");
+      item.className = "lg-item lg-note";
+      item.innerHTML = "<span class='lg-ring'></span><span class='lg-label'>Flagged for further review</span>";
+      item.addEventListener("mouseenter", () => highlightByPredicate(n => !!n.flagged));
+      item.addEventListener("mouseleave", clearPredicateHighlight);
+      legendBar.appendChild(item);
+    }
+    if (nodes.some(n => n.gamblingTie)) {
+      const item = document.createElement("div");
+      item.className = "lg-item lg-note";
+      item.innerHTML = "<span class='lg-card'></span><span class='lg-label'>Linked gambling holding — click to jump</span>";
+      item.addEventListener("mouseenter", () => highlightByPredicate(n => !!n.gamblingTie));
+      item.addEventListener("mouseleave", clearPredicateHighlight);
+      legendBar.appendChild(item);
+    }
+
+    // -- Filter toggles ---------------------------------------------------------
     const filterState = {};
     Object.keys(catCfg).forEach(k => filterState[k] = true);
     const filterPanel = el("n-filter-panel");
