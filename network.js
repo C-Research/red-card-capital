@@ -76,7 +76,7 @@
       const amount = l.amount != null ? l.amount : null;
       const label = l.label || null;
       return {
-        source: l.s, target: l.t, type: l.tp, label: label, amount: amount,
+        source: l.s, target: l.t, type: l.tp, label: label, amount: amount, date: l.date || null,
         displayLabel: label ? (label + (amount != null ? " · " + formatUSD(amount) : "")) : null
       };
     });
@@ -271,7 +271,7 @@
       .attr("text-anchor", "middle").attr("dominant-baseline", "middle")
       .attr("pointer-events", "none").text(d => d.link.displayLabel);
 
-    const tooltip = el("n-tooltip");
+    const tooltip = el("n-detail-flyout");
 
     const node = g.append("g").selectAll("g").data(nodes).join("g")
       .attr("class", "n-node");
@@ -375,13 +375,7 @@
         if (d.flagged) html += "<div class='tt-flag'>&#9888; " + escHtml(d.flagNote || "Flagged") + "</div>";
         if (d.gamblingTie) html += "<div class='tt-tie'>&#9670; Linked gambling holding — click the red badge to explore</div>";
         tooltip.innerHTML = html;
-        tooltip.style.opacity = 1;
-      })
-      .on("mousemove", function(e) {
-        const r = wrap.getBoundingClientRect();
-        let x = e.clientX - r.left + 14, y = e.clientY - r.top - 10;
-        if (x + 270 > r.width) x -= 280;
-        tooltip.style.left = x + "px"; tooltip.style.top = y + "px";
+        tooltip.classList.add("visible");
       })
       .on("mouseleave", function(e,d) {
         d3.select(this).select("circle.n-main").classed("hovered", false)
@@ -391,7 +385,10 @@
         [edgeLabelHalo, edgeLabel].forEach(sel => sel
           .filter(ln => ln.link.source.id === d.id || ln.link.target.id === d.id)
           .style("opacity", null));
-        tooltip.style.opacity = 0;
+        tooltip.classList.remove("visible");
+      })
+      .on("click", function(e, d) {
+        cfg.onNodeClick && cfg.onNodeClick(d);
       });
 
     sim.on("tick", () => {
@@ -583,6 +580,28 @@
       [edgeLabelHalo, edgeLabel].forEach(sel => sel.style("display", showLink));
     }
 
+    // -- Timeline — scrub through when each relationship/event occurred ------
+    // Min/max/current day are shared across both tabs (see top-level wiring)
+    // so switching tabs keeps the same point in time selected.
+    const dayMs = 86400000;
+    const toDay = s => Math.round(new Date(s + "T00:00:00Z").getTime() / dayMs);
+    const fmtDay = day => new Date(day * dayMs).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+
+    const timelineRange = el("n-timeline-range");
+    timelineRange.min = cfg.timelineMin;
+    timelineRange.max = cfg.timelineMax;
+    timelineRange.step = 1;
+    el("n-timeline-end").textContent = fmtDay(cfg.timelineMax);
+
+    function setTimelineDay(day) {
+      timelineRange.value = day;
+      el("n-timeline-date").textContent = fmtDay(day);
+      link.classed("future", d => d.date && toDay(d.date) > day);
+      [edgeLabelHalo, edgeLabel].forEach(sel => sel.classed("future", ln => ln.link.date && toDay(ln.link.date) > day));
+    }
+    timelineRange.addEventListener("input", () => cfg.onTimelineInput && cfg.onTimelineInput(+timelineRange.value));
+    setTimelineDay(cfg.initialTimelineDay != null ? cfg.initialTimelineDay : cfg.timelineMax);
+
     // -- Help ------------------------------------------------------------------
     el("n-help-btn").addEventListener("click", () => el("n-help-panel").classList.toggle("visible"));
 
@@ -613,7 +632,7 @@
       [edgeLabelHalo, edgeLabel].forEach(sel => sel.classed("shown", false));
     }
 
-    return { flashNode, clearHighlight };
+    return { flashNode, clearHighlight, setTimelineDay };
   }
 
   // ==========================================================================
@@ -638,6 +657,40 @@
     return Math.max(wrap.getBoundingClientRect().width, 400) || 800;
   }
 
+  // -- Shared timeline state — one clock across both tabs -------------------
+  let sharedTimelineMin = 0, sharedTimelineMax = 0, sharedTimelineDay = 0;
+  let timelinePlaying = false, timelineTimer = null;
+
+  function onSharedTimelineInput(day) {
+    sharedTimelineDay = Math.max(sharedTimelineMin, Math.min(sharedTimelineMax, day));
+    if (graphA) graphA.setTimelineDay(sharedTimelineDay);
+    if (graphB) graphB.setTimelineDay(sharedTimelineDay);
+  }
+
+  function setTimelinePlaying(playing) {
+    if (!sharedTimelineMax) return; // data not loaded yet
+    timelinePlaying = playing;
+    document.querySelectorAll(".n-timeline-play").forEach(btn => {
+      btn.textContent = playing ? "❙❙" : "▶";
+      btn.title = playing ? "Pause" : "Play";
+      btn.classList.toggle("playing", playing);
+    });
+    clearInterval(timelineTimer);
+    timelineTimer = null;
+    if (!playing) return;
+    if (sharedTimelineDay >= sharedTimelineMax) sharedTimelineDay = sharedTimelineMin;
+    const totalDays = sharedTimelineMax - sharedTimelineMin;
+    const stepDays = Math.max(1, Math.round(totalDays / 250));
+    timelineTimer = setInterval(() => {
+      onSharedTimelineInput(sharedTimelineDay + stepDays);
+      if (sharedTimelineDay >= sharedTimelineMax) setTimelinePlaying(false);
+    }, 60);
+  }
+
+  document.querySelectorAll(".n-timeline-play").forEach(btn => {
+    btn.addEventListener("click", () => setTimelinePlaying(!timelinePlaying));
+  });
+
   function initTab1(data) {
     const W = containerWidth();
     graphA = initNetworkGraph("a", {
@@ -647,7 +700,12 @@
       tierX: resolveTierX(data.tierX, W),
       width: W,
       collidePad: data.collidePad,
-      onBadgeClick: function(d) { goToGamblingTie(d.gamblingTie); }
+      onBadgeClick: function(d) { goToGamblingTie(d.gamblingTie); },
+      onNodeClick: function(d) { onEntityNodeClick(d); },
+      timelineMin: sharedTimelineMin,
+      timelineMax: sharedTimelineMax,
+      initialTimelineDay: sharedTimelineDay,
+      onTimelineInput: function(day) { onSharedTimelineInput(day); }
     });
   }
 
@@ -659,7 +717,11 @@
       linkDefs: data.linkDefs,
       tierX: resolveTierX(data.tierX, W),
       width: W,
-      collidePad: data.collidePad
+      collidePad: data.collidePad,
+      timelineMin: sharedTimelineMin,
+      timelineMax: sharedTimelineMax,
+      initialTimelineDay: sharedTimelineDay,
+      onTimelineInput: function(day) { onSharedTimelineInput(day); }
     });
   }
 
@@ -678,9 +740,131 @@
     btn.addEventListener("click", () => showTab(btn.dataset.tab));
   });
 
+  // ==========================================================================
+  // Cross-network path tracing — from any FIFA Entity Network node, walk to
+  // the nearest gambling-tied entity, then onward in the Match & Betting
+  // Network to the nearest flagged match. Renders as a clickable breadcrumb.
+  // ==========================================================================
+  function buildAdjacency(nodeList, linkDefs) {
+    const byId = new Map(nodeList.map(n => [n.id, n]));
+    const adj = new Map(nodeList.map(n => [n.id, []]));
+    linkDefs.forEach(l => {
+      const label = l.label || (l.tp === "sh" ? "shared interest" : l.tp === "cl" ? "client" : "linked to");
+      if (adj.has(l.s)) adj.get(l.s).push({ id: l.t, label });
+      if (adj.has(l.t)) adj.get(l.t).push({ id: l.s, label });
+    });
+    return { byId, adj };
+  }
+
+  function bfsPath(byId, adj, startId, matchFn, maxHops) {
+    const startNode = byId.get(startId);
+    if (startNode && matchFn(startNode)) return { id: startId, steps: [] };
+    const visited = new Set([startId]);
+    let queue = [{ id: startId, steps: [] }];
+    let hops = 0;
+    while (queue.length && hops < maxHops) {
+      const next = [];
+      for (const cur of queue) {
+        for (const nb of (adj.get(cur.id) || [])) {
+          if (visited.has(nb.id)) continue;
+          visited.add(nb.id);
+          const steps = cur.steps.concat([{ to: nb.id, label: nb.label }]);
+          const node = byId.get(nb.id);
+          if (node && matchFn(node)) return { id: nb.id, steps };
+          next.push({ id: nb.id, steps });
+        }
+      }
+      queue = next;
+      hops++;
+    }
+    return null;
+  }
+
+  let chainGraphs = null; // { tab1: {byId, adj}, tab2: {byId, adj} }
+
+  function traceChain(startId) {
+    if (!chainGraphs) return null;
+    const g1 = chainGraphs.tab1, g2 = chainGraphs.tab2;
+    const toBridge = bfsPath(g1.byId, g1.adj, startId, n => !!n.gamblingTie, 6);
+    if (!toBridge) return null;
+    const bridgeNode = g1.byId.get(toBridge.id);
+    const crossTargetId = bridgeNode.gamblingTie.targetId;
+    const toMatch = bfsPath(g2.byId, g2.adj, crossTargetId, n => !!n.flagged, 4);
+    return {
+      tab1Seq: [{ id: startId, tab: "tab1" }].concat(toBridge.steps.map(s => ({ id: s.to, tab: "tab1", label: s.label }))),
+      bridgeLabel: "linked gambling holding",
+      tab2Seq: toMatch
+        ? [{ id: crossTargetId, tab: "tab2" }].concat(toMatch.steps.map(s => ({ id: s.to, tab: "tab2", label: s.label })))
+        : [{ id: crossTargetId, tab: "tab2" }]
+    };
+  }
+
+  function stepLabelFor(step) {
+    const g = step.tab === "tab1" ? chainGraphs.tab1 : chainGraphs.tab2;
+    const node = g.byId.get(step.id);
+    return node ? node.full : step.id;
+  }
+
+  function buildChainSteps(stepsEl, trace) {
+    stepsEl.innerHTML = "";
+    const allSteps = trace.tab1Seq.concat(trace.tab2Seq);
+    allSteps.forEach((step, i) => {
+      if (i > 0) {
+        const prevInTab1 = i === trace.tab1Seq.length;
+        const label = prevInTab1 ? trace.bridgeLabel : step.label;
+        const arrow = document.createElement("div");
+        arrow.className = "chain-arrow" + (prevInTab1 ? " chain-arrow-cross" : "");
+        arrow.textContent = (label || "").toString().toUpperCase();
+        stepsEl.appendChild(arrow);
+      }
+      const chip = document.createElement("button");
+      chip.className = "chain-step";
+      chip.textContent = stepLabelFor(step);
+      chip.addEventListener("click", () => {
+        showTab(step.tab);
+        const g = step.tab === "tab1" ? graphA : graphB;
+        if (g) g.flashNode(step.id);
+      });
+      stepsEl.appendChild(chip);
+    });
+  }
+
+  function renderChainTrace(trace) {
+    ["a", "b"].forEach(suffix => {
+      buildChainSteps(document.getElementById("chain-trace-steps-" + suffix), trace);
+      document.getElementById("chain-trace-" + suffix).classList.remove("hidden");
+    });
+  }
+
+  function hideChainTrace() {
+    ["a", "b"].forEach(suffix => {
+      document.getElementById("chain-trace-" + suffix).classList.add("hidden");
+    });
+  }
+
+  ["a", "b"].forEach(suffix => {
+    document.getElementById("chain-trace-close-" + suffix).addEventListener("click", hideChainTrace);
+  });
+
+  function onEntityNodeClick(d) {
+    const trace = traceChain(d.id);
+    if (trace) renderChainTrace(trace);
+  }
+
   fetch("data.json")
     .then(res => res.json())
     .then(data => {
+      chainGraphs = {
+        tab1: buildAdjacency(data.tab1.nodes, data.tab1.linkDefs),
+        tab2: buildAdjacency(data.tab2.nodes, data.tab2.linkDefs)
+      };
+      const dayMs = 86400000;
+      const toDay = s => Math.round(new Date(s + "T00:00:00Z").getTime() / dayMs);
+      const allDays = data.tab1.linkDefs.concat(data.tab2.linkDefs)
+        .filter(l => l.date).map(l => toDay(l.date));
+      sharedTimelineMin = Math.min(...allDays);
+      sharedTimelineMax = Math.max(...allDays);
+      sharedTimelineDay = sharedTimelineMax;
       initTab1(data.tab1);
       initTab2(data.tab2);
     })

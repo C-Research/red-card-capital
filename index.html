@@ -37,17 +37,29 @@
         flagged official to jump to their linked gambling holding.</p>
     </div>
 
-    <div id="tab-nav">
-      <button class="tab-btn active" data-tab="tab1">FIFA Entity Network</button>
-      <button class="tab-btn" data-tab="tab2">Match &amp; Betting Network</button>
-    </div>
-
     <div class="tab-panel active" id="tab1">
       <div class="network-wrap" id="wrap-a">
+        <div class="viz-tab-nav">
+          <button class="tab-btn active" data-tab="tab1">FIFA Entity Network</button>
+          <button class="tab-btn" data-tab="tab2">Match &amp; Betting Network</button>
+        </div>
         <div class="n-legend-bar" id="n-legend-bar-a"></div>
+        <div class="chain-trace-panel hidden" id="chain-trace-a">
+          <div class="chain-trace-head">
+            <span class="chain-trace-title">Traced chain</span>
+            <button class="chain-trace-close" id="chain-trace-close-a" title="Close">×</button>
+          </div>
+          <div class="chain-trace-steps" id="chain-trace-steps-a"></div>
+        </div>
+        <div class="n-timeline-bar" id="n-timeline-bar-a">
+          <button class="n-timeline-play" id="n-timeline-play-a" title="Play">▶</button>
+          <span class="n-timeline-date" id="n-timeline-date-a"></span>
+          <input type="range" class="n-timeline-range" id="n-timeline-range-a">
+          <span class="n-timeline-end" id="n-timeline-end-a"></span>
+        </div>
         <div class="n-canvas">
           <svg class="n-svg" id="network-svg-a"></svg>
-          <div class="n-tooltip" id="n-tooltip-a"></div>
+          <div class="n-detail-flyout" id="n-detail-flyout-a"></div>
 
           <div class="n-search-wrap">
             <div class="n-search-row">
@@ -66,6 +78,16 @@
                       rows by role</span></div>
                 </div>
               </div>
+              <button class="n-reset" id="n-reset-a" title="Reset">
+                <svg class="ri" width="12" height="12" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 4V10H14" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M4 20V14H10" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2.5"
+                    stroke-linecap="round" />
+                  <path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945"
+                    stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+              </button>
               <button class="n-search-icon-btn" id="n-search-icon-btn-a" title="Search nodes">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="11" cy="11" r="7" stroke="#122945" stroke-width="2" stroke-linecap="round" />
@@ -79,18 +101,6 @@
               </div>
             </div>
           </div>
-
-          <button class="n-reset" id="n-reset-a">
-            <svg class="ri" width="12" height="12" viewBox="0 0 24 24" fill="none">
-              <path d="M20 4V10H14" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M4 20V14H10" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2.5"
-                stroke-linecap="round" />
-              <path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945"
-                stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-            Reset
-          </button>
 
           <div class="n-help-panel" id="n-help-panel-a">
             <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
@@ -125,10 +135,27 @@
 
     <div class="tab-panel" id="tab2">
       <div class="network-wrap" id="wrap-b">
+        <div class="viz-tab-nav">
+          <button class="tab-btn" data-tab="tab1">FIFA Entity Network</button>
+          <button class="tab-btn active" data-tab="tab2">Match &amp; Betting Network</button>
+        </div>
         <div class="n-legend-bar" id="n-legend-bar-b"></div>
+        <div class="chain-trace-panel hidden" id="chain-trace-b">
+          <div class="chain-trace-head">
+            <span class="chain-trace-title">Traced chain</span>
+            <button class="chain-trace-close" id="chain-trace-close-b" title="Close">×</button>
+          </div>
+          <div class="chain-trace-steps" id="chain-trace-steps-b"></div>
+        </div>
+        <div class="n-timeline-bar" id="n-timeline-bar-b">
+          <button class="n-timeline-play" id="n-timeline-play-b" title="Play">▶</button>
+          <span class="n-timeline-date" id="n-timeline-date-b"></span>
+          <input type="range" class="n-timeline-range" id="n-timeline-range-b">
+          <span class="n-timeline-end" id="n-timeline-end-b"></span>
+        </div>
         <div class="n-canvas">
           <svg class="n-svg" id="network-svg-b"></svg>
-          <div class="n-tooltip" id="n-tooltip-b"></div>
+          <div class="n-detail-flyout" id="n-detail-flyout-b"></div>
 
           <div class="n-search-wrap">
             <div class="n-search-row">
@@ -147,6 +174,16 @@
                       rows by role</span></div>
                 </div>
               </div>
+              <button class="n-reset" id="n-reset-b" title="Reset">
+                <svg class="ri" width="12" height="12" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 4V10H14" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M4 20V14H10" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2.5"
+                    stroke-linecap="round" />
+                  <path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945"
+                    stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+              </button>
               <button class="n-search-icon-btn" id="n-search-icon-btn-b" title="Search nodes">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="11" cy="11" r="7" stroke="#122945" stroke-width="2" stroke-linecap="round" />
@@ -160,18 +197,6 @@
               </div>
             </div>
           </div>
-
-          <button class="n-reset" id="n-reset-b">
-            <svg class="ri" width="12" height="12" viewBox="0 0 24 24" fill="none">
-              <path d="M20 4V10H14" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M4 20V14H10" stroke="#122945" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M6 12C6 8.68629 8.68629 6 12 6C13.8 6 15.5 6.8 16.7 8.1L20 10" stroke="#122945" stroke-width="2.5"
-                stroke-linecap="round" />
-              <path d="M18 12C18 15.3137 15.3137 18 12 18C10.2 18 8.5 17.2 7.3 15.9L4 14" stroke="#122945"
-                stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-            Reset
-          </button>
 
           <div class="n-help-panel" id="n-help-panel-b">
             <div><svg width="13" height="13" viewBox="0 0 24 24" fill="none">
